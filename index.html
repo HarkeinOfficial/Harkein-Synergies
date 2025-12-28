@@ -7,7 +7,7 @@
   <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* HARKEIN SYNERGIES - CORPORATE THEME */
+    /* CORPORATE THEME */
     :root{ --navy: #0f172a; --gold: #d4af37; --gold-light: #f3e5ab; --grey: #f8fafc; --text: #334155; --white: #ffffff; }
     *{box-sizing:border-box}
     body{font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; margin:0; background:var(--white); color:var(--text); line-height: 1.6;}
@@ -16,72 +16,29 @@
     header{background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px); color:white; position:sticky; top:0; z-index:1000; border-bottom: 3px solid var(--gold);}
     .container{max-width:1200px; margin:0 auto; padding:0 20px;}
     .topbar{display:flex; align-items:center; justify-content:space-between; padding:15px 0;}
-    
     .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); }
     
-    /* HAMBURGER MENU STYLES (ALWAYS VISIBLE) */
-    .hamburger {
-        display: block; /* Force visible on ALL screens */
-        font-size: 28px;
-        color: var(--gold);
-        cursor: pointer;
-        padding: 5px;
-        border: 1px solid transparent;
-        transition: 0.3s;
-    }
+    /* HAMBURGER & MENU */
+    .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; padding: 5px; border: 1px solid transparent; transition: 0.3s; }
     .hamburger:hover { border-color: var(--gold); border-radius: 4px; }
-
-    /* DROPDOWN MENU (HIDDEN BY DEFAULT) */
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: var(--navy);
-        flex-direction: column;
-        align-items: center;
-        padding: 30px 0;
-        gap: 25px;
-        display: none; /* Hidden initially */
-        border-bottom: 3px solid var(--gold);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    }
     
-    /* CLASS TO SHOW MENU WHEN ACTIVE */
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; display: none; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
     .nav-menu.active { display: flex; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .nav-menu a {
-        color: white;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 16px; /* Slightly larger for dropdown */
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: 0.3s;
-        width: 100%;
-        text-align: center;
-        padding: 10px 0;
-    }
+    .nav-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 100%; text-align: center; padding: 10px 0; }
     .nav-menu a:hover { color: var(--gold); background: rgba(255,255,255,0.05); }
     .nav-btn { border: 1px solid var(--gold); padding: 12px 30px !important; border-radius: 4px; color: var(--gold) !important; display: inline-block; width: auto !important; margin-top: 10px; }
     .nav-btn:hover { background: var(--gold); color: var(--navy) !important; }
 
-
-    /* HERO SECTION */
+    /* HERO */
     .hero{position:relative; overflow:hidden; height: 85vh; color: white;}
     .slide{min-width:100%; height:100%; background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80'); background-size:cover; background-position:center; display:flex; align-items:center; justify-content: center; position: relative;}
     .slide::after { content:''; position:absolute; inset:0; background: linear-gradient(90deg, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0.4) 100%); }
-    
     .hero-content { position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 20px; animation: fadeIn 1s ease-out; }
     .hero h1{font-size:56px; margin:0 0 15px; letter-spacing:-1px; font-weight: 800; line-height: 1.1;}
     .hero p{font-size:22px; margin:0 0 30px; color:var(--gold-light); font-weight: 300;}
     .btn-primary{background:var(--gold); color:var(--navy); border: 2px solid var(--gold); padding:15px 30px; border-radius:4px; text-decoration:none; font-weight:700;}
-    
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
     /* SECTIONS */
@@ -97,7 +54,8 @@
 
     /* DIVISIONS GRID */
     .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px;}
-    .division-card { position: relative; height: 350px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .division-card { position: relative; height: 350px; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .division-card:hover { transform: translateY(-5px); }
     .division-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
     .division-card:hover img { transform: scale(1.1); }
     .division-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0) 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; }
@@ -140,7 +98,7 @@
         <a href="solutions.html">Tech Solutions</a> 
         <a href="fashion.html">Fashion</a>
         <a href="procurement.html">Logistics</a>
-        <a href="contact.html" class="nav-btn">Contact</a>
+        <a href="news.html">News</a> <a href="gallery.html">Gallery</a> <a href="contact.html" class="nav-btn">Contact</a>
       </nav>
     </div>
   </header>
@@ -183,7 +141,6 @@
       </div>
 
       <div class="grid">
-        
         <div class="division-card">
             <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80" alt="Infrastructure">
             <div class="division-overlay">
@@ -219,7 +176,6 @@
                 <a href="procurement.html" class="division-link">View Logistics →</a>
             </div>
         </div>
-
       </div>
     </section>
 
@@ -245,8 +201,8 @@
             <h4>Corporate</h4>
             <ul>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="solutions.html">Enterprise Solutions</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="news.html">News & Updates</a></li>
+                <li><a href="gallery.html">Portfolio Gallery</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -268,10 +224,7 @@
   </footer>
 
   <script>
-    function toggleMenu() {
-        var menu = document.getElementById("navMenu");
-        menu.classList.toggle("active");
-    }
+    function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
   </script>
 </body>
 </html>
