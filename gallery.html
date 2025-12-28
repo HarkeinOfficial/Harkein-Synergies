@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gallery & Portfolio — Harkein Synergies</title>
+  <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* THEME */
+    :root{ --navy: #0f172a; --gold: #d4af37; --grey: #f8fafc; --text: #334155; --white: #ffffff; }
+    *{box-sizing:border-box}
+    body{font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; margin:0; background:var(--white); color:var(--text); line-height: 1.6;}
+
+    /* HEADER */
+    header{background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px); color:white; position:sticky; top:0; z-index:1000; border-bottom: 3px solid var(--gold);}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px;}
+    .topbar{display:flex; align-items:center; justify-content:space-between; padding:15px 0;}
+    .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); }
+    
+    .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; }
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 20px 0; gap: 20px; display: none; border-bottom: 3px solid var(--gold); }
+    .nav-menu.active { display: flex; }
+    .nav-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
+    .nav-menu a:hover { color: var(--gold); }
+    .nav-btn { border: 1px solid var(--gold); padding: 8px 16px; border-radius: 4px; color: var(--gold) !important; }
+
+    /* PAGE HERO */
+    .page-hero { height: 40vh; background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
+    .page-hero::after { content:''; position:absolute; inset:0; background: rgba(15,23,42,0.85); }
+    .hero-text { position: relative; z-index: 2; text-align: center; color: white; }
+    .hero-text h1 { font-size: 48px; margin: 0; font-weight: 800; letter-spacing: 1px; }
+
+    /* GALLERY GRID */
+    .gallery-section { padding: 80px 0; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    
+    .gallery-item { position: relative; height: 300px; border-radius: 8px; overflow: hidden; cursor: pointer; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .gallery-item:hover img { transform: scale(1.1); }
+    
+    .overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0) 100%); display: flex; align-items: flex-end; padding: 20px; opacity: 0; transition: 0.3s; }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .caption { color: white; font-weight: 700; font-size: 18px; border-left: 3px solid var(--gold); padding-left: 10px; }
+
+    /* FOOTER */
+    footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px;}
+    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+    .footer-col h4 { color: white; margin-bottom: 20px; text-transform: uppercase; }
+    .footer-col ul { list-style: none; padding: 0; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container topbar">
+      <a href="index.html" class="logo-img"><img src="9227.jpg" alt="HARKEIN"></a>
+      <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+        <a href="gallery.html" style="color:var(--gold);">Gallery</a>
+        <a href="contact.html" class="nav-btn">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-hero">
+        <div class="hero-text">
+            <h1>OUR PORTFOLIO</h1>
+            <p style="color:var(--gold);">Projects • Events • Partnerships</p>
+        </div>
+    </div>
+
+    <section class="container gallery-section">
+        <div class="gallery-grid">
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80" alt="Real Estate Project">
+                <div class="overlay">
+                    <div class="caption">Grazeland Estate Project</div>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1574634534894-89d7576c8259?auto=format&fit=crop&w=800&q=80" alt="Logistics Team">
+                <div class="overlay">
+                    <div class="caption">Logistics Fleet Inspection</div>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="Client Meeting">
+                <div class="overlay">
+                    <div class="caption">Meeting with Global Partners</div>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" alt="Fashion Event">
+                <div class="overlay">
+                    <div class="caption">Harkein Fashion Showcase</div>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80" alt="Tech">
+                <div class="overlay">
+                    <div class="caption">Data Analysis Strategy Session</div>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800&q=80" alt="Agric">
+                <div class="overlay">
+                    <div class="caption">Agro-Export Quality Control</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+        <div class="footer-col">
+            <h4>Harkein Synergies</h4>
+            <p>Building the Future.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="news.html">News & Updates</a></li>
+                <li><a href="gallery.html">Project Gallery</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
+  </script>
+</body>
+</html>
