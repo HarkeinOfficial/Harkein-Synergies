@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CEO Dashboard — Harkein Synergies</title>
   <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     /* ADMIN THEME */
     :root{ --navy: #0f172a; --gold: #d4af37; --white: #ffffff; --grey: #f1f5f9; }
     *{box-sizing:border-box}
-    body{font-family: 'Segoe UI', sans-serif; margin:0; background:var(--navy); color:var(--text); height: 100vh; overflow: hidden;}
+    body{font-family: 'Segoe UI', sans-serif; margin:0; background:var(--navy); color:#333; height: 100vh; overflow: hidden;}
 
     /* LOGIN SCREEN */
     #login-screen { position: fixed; inset: 0; background: var(--navy); z-index: 2000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
@@ -20,13 +21,15 @@
     .login-btn:hover { background: var(--gold); color: var(--navy); }
 
     /* DASHBOARD LAYOUT */
-    #dashboard { display: none; height: 100vh; display: flex; } 
+    #main-interface { display: none; height: 100vh; display: flex; } 
     
     /* SIDEBAR */
-    .sidebar { width: 250px; background: rgba(0,0,0,0.2); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 20px; }
-    .brand { color: white; font-size: 20px; font-weight: 800; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar { width: 260px; background: rgba(0,0,0,0.3); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+    .brand { color: white; font-size: 20px; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
     .brand span { color: var(--gold); }
-    .nav-item { padding: 15px; color: rgba(255,255,255,0.7); cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.2s; }
+    
+    .nav-category { color: var(--gold); font-size: 12px; text-transform: uppercase; font-weight: bold; margin-top: 20px; margin-bottom: 10px; }
+    .nav-item { padding: 12px 15px; color: rgba(255,255,255,0.8); cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.2s; display: flex; align-items: center; gap: 10px; font-size: 14px; }
     .nav-item:hover, .nav-item.active { background: var(--gold); color: var(--navy); font-weight: 700; }
     
     /* MAIN CONTENT */
@@ -34,18 +37,19 @@
     .panel { display: none; animation: fadeIn 0.3s; }
     .panel.active { display: block; }
     
-    h2 { color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 10px; display: inline-block; }
+    h2 { color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 10px; display: inline-block; margin-top: 0; }
+    p.desc { color: #666; margin-bottom: 20px; }
     
     /* FORMS */
     .form-group { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 800px; }
-    label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
-    .btn-generate { background: var(--navy); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 14px; }
+    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
+    .btn-generate { background: var(--navy); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; transition: 0.3s; }
     .btn-generate:hover { background: var(--gold); color: var(--navy); }
 
     /* OUTPUT BOX */
-    .output-area { margin-top: 30px; background: #1e293b; padding: 20px; border-radius: 8px; color: #a5b4fc; font-family: monospace; position: relative; }
-    textarea.code-box { width: 100%; height: 200px; background: transparent; border: none; color: inherit; resize: none; outline: none; }
+    .output-area { margin-top: 30px; background: #1e293b; padding: 20px; border-radius: 8px; color: #a5b4fc; font-family: monospace; position: relative; max-width: 800px; }
+    textarea.code-box { width: 100%; height: 150px; background: transparent; border: none; color: inherit; resize: none; outline: none; font-family: monospace; font-size: 13px; }
     .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--gold); color: var(--navy); border: none; padding: 5px 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -63,91 +67,166 @@
     </div>
   </div>
 
-  <div id="main-interface" style="display: none; height: 100vh; width: 100%;">
+  <div id="main-interface">
     
     <div class="sidebar">
       <div class="brand">HARKEIN <span>ADMIN</span></div>
-      <div class="nav-item active" onclick="switchTab('fashion')">Fashion Store</div>
-      <div class="nav-item" onclick="switchTab('realestate')">Real Estate</div>
-      <div class="nav-item" onclick="logout()">Logout</div>
+      
+      <div class="nav-category">Core Business</div>
+      <div class="nav-item active" onclick="switchTab('fashion')"><i class="fas fa-tshirt"></i> Fashion Store</div>
+      <div class="nav-item" onclick="switchTab('realestate')"><i class="fas fa-building"></i> Real Estate</div>
+      
+      <div class="nav-category">Billionaire Sectors</div>
+      <div class="nav-item" onclick="switchTab('energy')"><i class="fas fa-gas-pump"></i> Energy & Agric</div>
+      <div class="nav-item" onclick="switchTab('solutions')"><i class="fas fa-chart-line"></i> Data & FMCG</div>
+      <div class="nav-item" onclick="switchTab('logistics')"><i class="fas fa-truck-moving"></i> Logistics</div>
+
+      <div class="nav-category">Media Center</div>
+      <div class="nav-item" onclick="switchTab('news')"><i class="fas fa-newspaper"></i> Post News</div>
+      <div class="nav-item" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Update Gallery</div>
+
+      <div style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <div class="nav-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+      </div>
     </div>
 
     <div class="main-content">
       
       <div id="fashion" class="panel active">
         <h2>Add Fashion Item</h2>
-        <p>Generates code with WhatsApp & Instagram buttons.</p>
-        
+        <p class="desc">Generate code for <b>fashion.html</b></p>
         <div class="form-group">
           <label>Image Link (URL)</label>
           <input type="text" id="f-img" placeholder="https://...">
-          
           <label>Category</label>
           <select id="f-cat">
             <option>Men's Luxury</option>
             <option>Women's Luxury</option>
             <option>Accessories</option>
-            <option>Streetwear</option>
           </select>
-          
           <label>Product Name</label>
           <input type="text" id="f-name" placeholder="e.g. Navy Blue Bespoke Suit">
-          
           <label>Price (₦)</label>
           <input type="text" id="f-price" placeholder="e.g. 150,000">
-
           <button class="btn-generate" onclick="generateFashion()">Generate Code</button>
         </div>
-
         <div class="output-area" id="f-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('f-code')">COPY CODE</button>
-          <p style="color: white; margin-top: 0;"><strong>Instructions:</strong> Paste inside the <code>&lt;div class="grid"&gt;</code> in <b>fashion.html</b>.</p>
+          <button class="copy-btn" onclick="copyCode('f-code')">COPY</button>
           <textarea id="f-code" class="code-box"></textarea>
         </div>
       </div>
 
       <div id="realestate" class="panel">
         <h2>Add Property</h2>
-        <p>Generates property card with location, features, and social buttons.</p>
-        
+        <p class="desc">Generate code for <b>properties.html</b></p>
         <div class="form-group">
-          <label>Image Link (URL)</label>
+          <label>Image Link</label>
           <input type="text" id="p-img" placeholder="https://...">
-          
           <label>Status</label>
-          <select id="p-status">
-            <option>For Sale</option>
-            <option>For Rent</option>
-            <option>Sold</option>
-          </select>
-          
+          <select id="p-status"><option>For Sale</option><option>For Rent</option></select>
           <label>Location</label>
-          <input type="text" id="p-loc" placeholder="e.g. Lekki Phase 1, Lagos">
-          
-          <label>Property Title</label>
-          <input type="text" id="p-title" placeholder="e.g. 4 Bedroom Terrace">
-          
+          <input type="text" id="p-loc" placeholder="Lekki, Lagos">
+          <label>Title</label>
+          <input type="text" id="p-title" placeholder="4 Bedroom Duplex">
           <label>Price</label>
-          <input type="text" id="p-price" placeholder="e.g. ₦120,000,000">
-          
-          <div style="display: flex; gap: 10px;">
-            <div style="flex:1">
-                <label>Beds</label>
-                <input type="text" id="p-beds" placeholder="4 Beds">
-            </div>
-            <div style="flex:1">
-                <label>Baths/Feature</label>
-                <input type="text" id="p-baths" placeholder="5 Baths">
-            </div>
-          </div>
-
+          <input type="text" id="p-price" placeholder="₦120,000,000">
           <button class="btn-generate" onclick="generateProperty()">Generate Code</button>
         </div>
-
         <div class="output-area" id="p-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('p-code')">COPY CODE</button>
-          <p style="color: white; margin-top: 0;"><strong>Instructions:</strong> Paste inside the <code>&lt;div class="grid"&gt;</code> in <b>properties.html</b>.</p>
+          <button class="copy-btn" onclick="copyCode('p-code')">COPY</button>
           <textarea id="p-code" class="code-box"></textarea>
+        </div>
+      </div>
+
+      <div id="energy" class="panel">
+        <h2>Add Energy/Agric Service</h2>
+        <p class="desc">Generate code for <b>commodities.html</b></p>
+        <div class="form-group">
+          <label>Image Link</label>
+          <input type="text" id="e-img" placeholder="https://...">
+          <label>Service Title</label>
+          <input type="text" id="e-title" placeholder="e.g. Bulk Diesel Supply">
+          <label>Description</label>
+          <textarea id="e-desc" rows="3" placeholder="Description of the service..."></textarea>
+          <button class="btn-generate" onclick="generateService('e')">Generate Code</button>
+        </div>
+        <div class="output-area" id="e-output" style="display:none;">
+          <button class="copy-btn" onclick="copyCode('e-code')">COPY</button>
+          <textarea id="e-code" class="code-box"></textarea>
+        </div>
+      </div>
+
+      <div id="solutions" class="panel">
+        <h2>Add Solution</h2>
+        <p class="desc">Generate code for <b>solutions.html</b></p>
+        <div class="form-group">
+          <label>Image Link</label>
+          <input type="text" id="s-img" placeholder="https://...">
+          <label>Service Title</label>
+          <input type="text" id="s-title" placeholder="e.g. Data Analysis Consultancy">
+          <label>Description</label>
+          <textarea id="s-desc" rows="3" placeholder="Description..."></textarea>
+          <button class="btn-generate" onclick="generateService('s')">Generate Code</button>
+        </div>
+        <div class="output-area" id="s-output" style="display:none;">
+          <button class="copy-btn" onclick="copyCode('s-code')">COPY</button>
+          <textarea id="s-code" class="code-box"></textarea>
+        </div>
+      </div>
+
+      <div id="logistics" class="panel">
+        <h2>Add Logistics Service</h2>
+        <p class="desc">Generate code for <b>procurement.html</b></p>
+        <div class="form-group">
+            <label>Icon Class (FontAwesome)</label>
+            <input type="text" id="l-icon" placeholder="fas fa-truck">
+            <label>Service Title</label>
+            <input type="text" id="l-title" placeholder="e.g. Haulage Services">
+            <label>Description</label>
+            <textarea id="l-desc" rows="3"></textarea>
+            <button class="btn-generate" onclick="generateLogistics()">Generate Code</button>
+        </div>
+        <div class="output-area" id="l-output" style="display:none;">
+            <button class="copy-btn" onclick="copyCode('l-code')">COPY</button>
+            <textarea id="l-code" class="code-box"></textarea>
+        </div>
+      </div>
+
+      <div id="news" class="panel">
+        <h2>Post News Update</h2>
+        <p class="desc">Generate code for <b>news.html</b></p>
+        <div class="form-group">
+          <label>Image Link</label>
+          <input type="text" id="n-img" placeholder="https://...">
+          <label>Date</label>
+          <input type="text" id="n-date" placeholder="Jan 01, 2026">
+          <label>Headline</label>
+          <input type="text" id="n-title" placeholder="e.g. Partnership with Shell">
+          <label>Short Summary</label>
+          <textarea id="n-desc" rows="3"></textarea>
+          <label>Link To Page (Optional)</label>
+          <input type="text" id="n-link" placeholder="contact.html">
+          <button class="btn-generate" onclick="generateNews()">Generate Code</button>
+        </div>
+        <div class="output-area" id="n-output" style="display:none;">
+          <button class="copy-btn" onclick="copyCode('n-code')">COPY</button>
+          <textarea id="n-code" class="code-box"></textarea>
+        </div>
+      </div>
+
+      <div id="gallery" class="panel">
+        <h2>Update Gallery</h2>
+        <p class="desc">Generate code for <b>gallery.html</b></p>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" id="g-img" placeholder="https://...">
+          <label>Caption / Project Name</label>
+          <input type="text" id="g-cap" placeholder="e.g. Grazeland Estate Inspection">
+          <button class="btn-generate" onclick="generateGallery()">Generate Code</button>
+        </div>
+        <div class="output-area" id="g-output" style="display:none;">
+          <button class="copy-btn" onclick="copyCode('g-code')">COPY</button>
+          <textarea id="g-code" class="code-box"></textarea>
         </div>
       </div>
 
@@ -155,28 +234,12 @@
   </div>
 
   <script>
-    // ============================================
-    // CEO CONFIGURATION (EDIT HERE)
-    // ============================================
-    
-    // 1. YOUR PASSWORD
     const PASSWORD = "@Folaranmi2003"; 
-
-    // 2. YOUR WHATSAPP NUMBER (Start with 234, no +)
-    // I updated this to the number found in your previous files
     const WA_PHONE = "2349026824546"; 
-
-    // 3. YOUR INSTAGRAM USERNAME
-    // I updated this to match your request
     const IG_USER = "harkein_synergies";
 
-    // ============================================
-    // SYSTEM CODE (DO NOT EDIT BELOW)
-    // ============================================
-
     function checkLogin() {
-        const input = document.getElementById("password").value;
-        if(input === PASSWORD) {
+        if(document.getElementById("password").value === PASSWORD) {
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("main-interface").style.display = "flex";
         } else {
@@ -188,82 +251,115 @@
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.target.classList.add('active');
+        event.currentTarget.classList.add('active');
     }
+
+    function copyCode(id) {
+        document.getElementById(id).select();
+        document.execCommand("copy");
+        alert("Code copied! Paste it into the correct HTML file.");
+    }
+
+    function logout() { location.reload(); }
+
+    // --- GENERATORS ---
 
     function generateFashion() {
         const img = document.getElementById('f-img').value;
-        const cat = document.getElementById('f-cat').value;
         const name = document.getElementById('f-name').value;
         const price = document.getElementById('f-price').value;
-        
-        const waLink = `https://wa.me/${WA_PHONE}?text=I am interested in the ${name}`;
-        const igLink = `https://instagram.com/${IG_USER}`;
-
         const code = `
-            <div class="product-card">
-                <img src="${img}" alt="${name}" class="product-img">
-                <div class="product-details">
-                    <div class="product-cat">${cat}</div>
-                    <div class="product-title">${name}</div>
-                    <div class="product-price">₦${price}</div>
-                    <div style="display:flex; gap:10px; margin-top:15px;">
-                        <a href="${waLink}" class="btn-buy" style="flex:1; text-align:center; font-size:12px;">WhatsApp</a>
-                        <a href="${igLink}" target="_blank" class="btn-buy" style="flex:1; text-align:center; font-size:12px; background:#C13584;">Instagram</a>
-                    </div>
-                </div>
-            </div>`;
-
-        document.getElementById('f-code').value = code.trim();
-        document.getElementById('f-output').style.display = "block";
+        <div class="division-card">
+            <img src="${img}" alt="${name}">
+            <div class="division-overlay">
+                <h3>${name}</h3>
+                <p>₦${price}</p>
+                <a href="https://wa.me/${WA_PHONE}?text=Order ${name}" class="division-link">Order Now</a>
+            </div>
+        </div>`;
+        document.getElementById('f-code').value = code;
+        document.getElementById('f-output').style.display = 'block';
     }
 
     function generateProperty() {
         const img = document.getElementById('p-img').value;
-        const status = document.getElementById('p-status').value;
-        const loc = document.getElementById('p-loc').value;
         const title = document.getElementById('p-title').value;
         const price = document.getElementById('p-price').value;
-        const beds = document.getElementById('p-beds').value;
-        const baths = document.getElementById('p-baths').value;
-
-        const waLink = `https://wa.me/${WA_PHONE}?text=I am interested in the ${title} at ${loc}`;
-        const igLink = `https://instagram.com/${IG_USER}`;
-
+        const loc = document.getElementById('p-loc').value;
         const code = `
-            <div class="prop-card">
-                <div class="prop-img-wrap">
-                    <span class="prop-status">${status}</span>
-                    <img src="${img}" alt="${title}" class="prop-img">
-                </div>
-                <div class="prop-details">
-                    <div class="prop-loc">📍 ${loc}</div>
-                    <div class="prop-title">${title}</div>
-                    <div class="prop-price">${price}</div>
-                    <div class="prop-meta">
-                        <span>${beds}</span>
-                        <span>${baths}</span>
-                    </div>
-                    <div style="display:flex; gap:10px; margin-top:15px;">
-                        <a href="${waLink}" class="btn-inquire" style="flex:1; font-size:12px;">WhatsApp</a>
-                        <a href="${igLink}" target="_blank" class="btn-inquire" style="flex:1; font-size:12px; background:#C13584;">Instagram</a>
-                    </div>
-                </div>
-            </div>`;
-
-        document.getElementById('p-code').value = code.trim();
-        document.getElementById('p-output').style.display = "block";
+        <div class="division-card">
+            <img src="${img}" alt="${title}">
+            <div class="division-overlay">
+                <h3>${title}</h3>
+                <p>${loc} - ₦${price}</p>
+                <a href="https://wa.me/${WA_PHONE}?text=Inquire ${title}" class="division-link">View Details</a>
+            </div>
+        </div>`;
+        document.getElementById('p-code').value = code;
+        document.getElementById('p-output').style.display = 'block';
     }
 
-    function copyCode(elementId) {
-        const copyText = document.getElementById(elementId);
-        copyText.select();
-        document.execCommand("copy");
-        alert("Code copied! Now paste it into your HTML file on GitHub.");
+    function generateService(prefix) {
+        const img = document.getElementById(prefix+'-img').value;
+        const title = document.getElementById(prefix+'-title').value;
+        const desc = document.getElementById(prefix+'-desc').value;
+        const code = `
+        <div class="split-section">
+            <div class="text-content">
+                <h2>${title}</h2>
+                <p>${desc}</p>
+                <a href="contact.html" class="btn-main">Contact Us</a>
+            </div>
+            <div class="image-content"><img src="${img}" alt="${title}"></div>
+        </div>`;
+        document.getElementById(prefix+'-code').value = code;
+        document.getElementById(prefix+'-output').style.display = 'block';
     }
 
-    function logout() {
-        location.reload();
+    function generateLogistics() {
+        const icon = document.getElementById('l-icon').value;
+        const title = document.getElementById('l-title').value;
+        const desc = document.getElementById('l-desc').value;
+        const code = `
+        <div class="trading-item">
+            <i class="${icon}"></i>
+            <h3>${title}</h3>
+            <p>${desc}</p>
+        </div>`;
+        document.getElementById('l-code').value = code;
+        document.getElementById('l-output').style.display = 'block';
+    }
+
+    function generateNews() {
+        const img = document.getElementById('n-img').value;
+        const date = document.getElementById('n-date').value;
+        const title = document.getElementById('n-title').value;
+        const desc = document.getElementById('n-desc').value;
+        const link = document.getElementById('n-link').value;
+        const code = `
+        <div class="news-card">
+            <img src="${img}" alt="${title}" class="news-img">
+            <div class="news-content">
+                <span class="news-date">${date}</span>
+                <h3>${title}</h3>
+                <p>${desc}</p>
+                <a href="${link}" class="read-more">Read More →</a>
+            </div>
+        </div>`;
+        document.getElementById('n-code').value = code;
+        document.getElementById('n-output').style.display = 'block';
+    }
+
+    function generateGallery() {
+        const img = document.getElementById('g-img').value;
+        const cap = document.getElementById('g-cap').value;
+        const code = `
+        <div class="gallery-item">
+            <img src="${img}" alt="${cap}">
+            <div class="overlay"><div class="caption">${cap}</div></div>
+        </div>`;
+        document.getElementById('g-code').value = code;
+        document.getElementById('g-output').style.display = 'block';
     }
   </script>
 </body>
