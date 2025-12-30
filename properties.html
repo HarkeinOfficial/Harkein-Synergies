@@ -63,7 +63,47 @@
     .footer-col ul li { margin-bottom: 10px; }
     .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
     .footer-col a:hover { color: var(--gold); }
-    
+
+    /* Paste this around Line 67 */
+.division-card {
+    position: relative;
+    height: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    background: white; /* Added background so it's not transparent */
+    margin-bottom: 30px; /* Adds space between rows */
+}
+.division-card:hover {
+    transform: translateY(-5px);
+}
+.division-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.division-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.division-link {
+    display: inline-block;
+    background: #D4AF37; 
+    color: #000;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
     @media(max-width:768px){ .topbar { flex-direction: column; gap: 15px; } nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; } nav a { margin: 0; } .services-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
