@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title id="page-title">News Article — Harkein Synergies</title>
+  <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root{ --navy: #0f172a; --gold: #d4af37; --grey: #f8fafc; --text: #334155; --white: #ffffff; }
+    *{box-sizing:border-box}
+    body{font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; margin:0; background:var(--white); color:var(--text); line-height: 1.8;}
+
+    /* HEADER */
+    header{background: rgba(15, 23, 42, 0.98); color:white; position:sticky; top:0; z-index:1000; border-bottom: 3px solid var(--gold);}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px;}
+    .topbar{display:flex; align-items:center; justify-content:space-between; padding:15px 0;}
+    .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); }
+    .back-btn { color: var(--gold); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
+    .back-btn:hover { color: white; }
+
+    /* ARTICLE HERO */
+    .article-hero {
+      height: 50vh;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+    .article-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15,23,42,0.95), transparent);
+    }
+    .article-hero-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      padding: 40px 0;
+    }
+    .article-date {
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    .article-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    /* ARTICLE CONTENT */
+    .article-content {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .article-body {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .article-body p {
+      margin-bottom: 20px;
+    }
+    .article-body h2 {
+      color: var(--navy);
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    /* SHARE BUTTONS */
+    .share-section {
+      border-top: 2px solid var(--grey);
+      border-bottom: 2px solid var(--grey);
+      padding: 30px 0;
+      margin: 50px 0;
+      text-align: center;
+    }
+    .share-section h3 {
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+    .share-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .share-whatsapp { background: #25D366; color: white; }
+    .share-whatsapp:hover { background: #1da851; }
+    .share-email { background: var(--gold); color: var(--navy); }
+    .share-email:hover { background: #c19a2e; }
+
+    /* FOOTER */
+    footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px;}
+    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+    .footer-col h4 { color: white; margin-bottom: 20px; }
+
+    @media(max-width:768px){
+      .article-title { font-size: 28px; }
+      .article-body { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container topbar">
+      <a href="index.html" class="logo-img"><img src="9227.jpg" alt="HARKEIN"></a>
+      <a href="news.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to News
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-hero" id="article-hero">
+      <div class="container article-hero-content">
+        <div class="article-date" id="article-date">Loading...</div>
+        <h1 class="article-title" id="article-title">Loading article...</h1>
+      </div>
+    </div>
+
+    <article class="article-content">
+      <div class="article-body" id="article-body">
+        <p>Loading content...</p>
+      </div>
+
+      <div class="share-section">
+        <h3>Share This Article</h3>
+        <div class="share-buttons">
+          <a href="#" class="share-btn share-whatsapp" id="share-whatsapp">
+            <i class="fab fa-whatsapp"></i> Share on WhatsApp
+          </a>
+          <a href="#" class="share-btn share-email" id="share-email">
+            <i class="fas fa-envelope"></i> Email Article
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 50px;">
+        <a href="news.html" class="back-btn" style="font-size: 16px;">
+          <i class="fas fa-arrow-left"></i> Back to All News
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-col">
+        <h4>Harkein Synergies</h4>
+        <p>&copy; 2025 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Get article ID from URL filename
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileName = window.location.pathname.split('/').pop();
+    const articleId = fileName.replace('news-article-', '').replace('.html', '');
+
+    function loadArticle() {
+      // Get news data from localStorage
+      const newsData = localStorage.getItem('harkeinNews');
+      
+      if (!newsData) {
+        document.getElementById('article-body').innerHTML = `
+          <p>Article not found. <a href="news.html">Return to news page</a></p>
+        `;
+        return;
+      }
+
+      const articles = JSON.parse(newsData);
+      const article = articles.find(item => item._id === articleId);
+
+      if (!article) {
+        document.getElementById('article-body').innerHTML = `
+          <p>Article not found. <a href="news.html">Return to news page</a></p>
+        `;
+        return;
+      }
+
+      // Set page title
+      document.getElementById('page-title').textContent = article.data.title + ' — Harkein Synergies';
+      document.title = article.data.title + ' — Harkein Synergies';
+
+      // Set hero background
+      document.getElementById('article-hero').style.backgroundImage = `url('${article.data.img}')`;
+
+      // Set article content
+      document.getElementById('article-date').textContent = article.data.date || new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('article-title').textContent = article.data.title;
+      
+      // Display full description (you can format this with paragraphs)
+      const formattedDesc = article.data.desc.split('\n').map(p => `<p>${p}</p>`).join('');
+      document.getElementById('article-body').innerHTML = formattedDesc;
+
+      // Set share buttons
+      const shareText = encodeURIComponent(article.data.title);
+      const shareUrl = encodeURIComponent(window.location.href);
+      document.getElementById('share-whatsapp').href = `https://wa.me/?text=${shareText}%20${shareUrl}`;
+      document.getElementById('share-email').href = `mailto:?subject=${shareText}&body=Check out this article: ${shareUrl}`;
+    }
+
+    loadArticle();
+  </script>
+
+</body>
+</html>
