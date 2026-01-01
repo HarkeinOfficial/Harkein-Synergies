@@ -7,12 +7,10 @@
   <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* ADMIN THEME */
     :root{ --navy: #0f172a; --gold: #d4af37; --white: #ffffff; --grey: #f1f5f9; }
     *{box-sizing:border-box}
     body{font-family: 'Segoe UI', sans-serif; margin:0; background:var(--navy); color:#333; height: 100vh; overflow: hidden;}
 
-    /* LOGIN SCREEN */
     #login-screen { position: fixed; inset: 0; background: var(--navy); z-index: 2000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     .login-box { background: white; padding: 40px; border-radius: 8px; text-align: center; width: 350px; border-top: 5px solid var(--gold); }
     .login-box h2 { margin-top: 0; color: var(--navy); }
@@ -20,10 +18,8 @@
     .login-btn { width: 100%; padding: 12px; background: var(--navy); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .login-btn:hover { background: var(--gold); color: var(--navy); }
 
-    /* DASHBOARD LAYOUT */
-    #main-interface { display: none; height: 100vh; display: flex; } 
+    #main-interface { display: none; height: 100vh; } 
     
-    /* SIDEBAR */
     .sidebar { width: 260px; background: rgba(0,0,0,0.3); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
     .brand { color: white; font-size: 20px; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
     .brand span { color: var(--gold); }
@@ -32,7 +28,6 @@
     .nav-item { padding: 12px 15px; color: rgba(255,255,255,0.8); cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.2s; display: flex; align-items: center; gap: 10px; font-size: 14px; }
     .nav-item:hover, .nav-item.active { background: var(--gold); color: var(--navy); font-weight: 700; }
     
-    /* MAIN CONTENT */
     .main-content { flex: 1; background: var(--grey); padding: 40px; overflow-y: auto; }
     .panel { display: none; animation: fadeIn 0.3s; }
     .panel.active { display: block; }
@@ -40,19 +35,30 @@
     h2 { color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 10px; display: inline-block; margin-top: 0; }
     p.desc { color: #666; margin-bottom: 20px; }
     
-    /* FORMS */
-    .form-group { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 800px; }
+    .form-group { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 800px; margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 14px; }
     input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
     .btn-generate { background: var(--navy); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; transition: 0.3s; }
     .btn-generate:hover { background: var(--gold); color: var(--navy); }
 
-    /* OUTPUT BOX */
-    .output-area { margin-top: 30px; background: #1e293b; padding: 20px; border-radius: 8px; color: #a5b4fc; font-family: monospace; position: relative; max-width: 800px; }
-    textarea.code-box { width: 100%; height: 150px; background: transparent; border: none; color: inherit; resize: none; outline: none; font-family: monospace; font-size: 13px; }
-    .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--gold); color: var(--navy); border: none; padding: 5px 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+    .items-list { max-width: 800px; }
+    .item-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .item-card h3 { margin: 0 0 10px 0; color: var(--navy); }
+    .item-card p { margin: 5px 0; color: #666; font-size: 14px; }
+    .item-actions { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-delete { background: #dc2626; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 4px; font-size: 13px; }
+    .btn-delete:hover { background: #b91c1c; }
+
+    .success-msg { background: #10b981; color: white; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; }
+    .error-msg { background: #ef4444; color: white; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    @media (max-width: 768px) {
+      #main-interface { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; max-height: 200px; }
+      .main-content { padding: 20px; }
+    }
   </style>
 </head>
 <body>
@@ -93,8 +99,12 @@
     <div class="main-content">
       
       <div id="fashion" class="panel active">
-        <h2>Add Fashion Item</h2>
-        <p class="desc">Generate code for <b>fashion.html</b></p>
+        <h2>Fashion Store</h2>
+        <p class="desc">Add new fashion items to your store</p>
+        
+        <div class="success-msg" id="fashion-success"></div>
+        <div class="error-msg" id="fashion-error"></div>
+        
         <div class="form-group">
           <label>Image Link (URL)</label>
           <input type="text" id="f-img" placeholder="https://...">
@@ -108,17 +118,20 @@
           <input type="text" id="f-name" placeholder="e.g. Navy Blue Bespoke Suit">
           <label>Price (₦)</label>
           <input type="text" id="f-price" placeholder="e.g. 150,000">
-          <button class="btn-generate" onclick="generateFashion()">Generate Code</button>
+          <button class="btn-generate" onclick="saveFashion()">Save to Database</button>
         </div>
-        <div class="output-area" id="f-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('f-code')">COPY</button>
-          <textarea id="f-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Items</h3>
+        <div class="items-list" id="fashion-list"></div>
       </div>
 
       <div id="realestate" class="panel">
-        <h2>Add Property</h2>
-        <p class="desc">Generate code for <b>properties.html</b></p>
+        <h2>Real Estate</h2>
+        <p class="desc">Add properties to your portfolio</p>
+        
+        <div class="success-msg" id="property-success"></div>
+        <div class="error-msg" id="property-error"></div>
+        
         <div class="form-group">
           <label>Image Link</label>
           <input type="text" id="p-img" placeholder="https://...">
@@ -130,71 +143,83 @@
           <input type="text" id="p-title" placeholder="4 Bedroom Duplex">
           <label>Price</label>
           <input type="text" id="p-price" placeholder="₦120,000,000">
-          <button class="btn-generate" onclick="generateProperty()">Generate Code</button>
+          <button class="btn-generate" onclick="saveProperty()">Save to Database</button>
         </div>
-        <div class="output-area" id="p-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('p-code')">COPY</button>
-          <textarea id="p-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Properties</h3>
+        <div class="items-list" id="property-list"></div>
       </div>
 
       <div id="energy" class="panel">
-        <h2>Add Energy/Agric Service</h2>
-        <p class="desc">Generate code for <b>commodities.html</b></p>
+        <h2>Energy & Agriculture</h2>
+        <p class="desc">Add energy and agriculture services</p>
+        
+        <div class="success-msg" id="energy-success"></div>
+        <div class="error-msg" id="energy-error"></div>
+        
         <div class="form-group">
           <label>Image Link</label>
           <input type="text" id="e-img" placeholder="https://...">
           <label>Service Title</label>
           <input type="text" id="e-title" placeholder="e.g. Bulk Diesel Supply">
           <label>Description</label>
-          <textarea id="e-desc" rows="3" placeholder="Description of the service..."></textarea>
-          <button class="btn-generate" onclick="generateService('e')">Generate Code</button>
+          <textarea id="e-desc" rows="3" placeholder="Description..."></textarea>
+          <button class="btn-generate" onclick="saveEnergy()">Save to Database</button>
         </div>
-        <div class="output-area" id="e-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('e-code')">COPY</button>
-          <textarea id="e-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Services</h3>
+        <div class="items-list" id="energy-list"></div>
       </div>
 
       <div id="solutions" class="panel">
-        <h2>Add Solution</h2>
-        <p class="desc">Generate code for <b>solutions.html</b></p>
+        <h2>Data & FMCG Solutions</h2>
+        <p class="desc">Add business solutions</p>
+        
+        <div class="success-msg" id="solutions-success"></div>
+        <div class="error-msg" id="solutions-error"></div>
+        
         <div class="form-group">
           <label>Image Link</label>
           <input type="text" id="s-img" placeholder="https://...">
           <label>Service Title</label>
-          <input type="text" id="s-title" placeholder="e.g. Data Analysis Consultancy">
+          <input type="text" id="s-title" placeholder="e.g. Data Analysis">
           <label>Description</label>
           <textarea id="s-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" onclick="generateService('s')">Generate Code</button>
+          <button class="btn-generate" onclick="saveSolutions()">Save to Database</button>
         </div>
-        <div class="output-area" id="s-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('s-code')">COPY</button>
-          <textarea id="s-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Solutions</h3>
+        <div class="items-list" id="solutions-list"></div>
       </div>
 
       <div id="logistics" class="panel">
-        <h2>Add Logistics Service</h2>
-        <p class="desc">Generate code for <b>procurement.html</b></p>
+        <h2>Logistics Services</h2>
+        <p class="desc">Add logistics and procurement services</p>
+        
+        <div class="success-msg" id="logistics-success"></div>
+        <div class="error-msg" id="logistics-error"></div>
+        
         <div class="form-group">
-            <label>Icon Class (FontAwesome)</label>
-            <input type="text" id="l-icon" placeholder="fas fa-truck">
-            <label>Service Title</label>
-            <input type="text" id="l-title" placeholder="e.g. Haulage Services">
-            <label>Description</label>
-            <textarea id="l-desc" rows="3"></textarea>
-            <button class="btn-generate" onclick="generateLogistics()">Generate Code</button>
+          <label>Icon Class (FontAwesome)</label>
+          <input type="text" id="l-icon" placeholder="fas fa-truck">
+          <label>Service Title</label>
+          <input type="text" id="l-title" placeholder="e.g. Haulage Services">
+          <label>Description</label>
+          <textarea id="l-desc" rows="3" placeholder="Description..."></textarea>
+          <button class="btn-generate" onclick="saveLogistics()">Save to Database</button>
         </div>
-        <div class="output-area" id="l-output" style="display:none;">
-            <button class="copy-btn" onclick="copyCode('l-code')">COPY</button>
-            <textarea id="l-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Services</h3>
+        <div class="items-list" id="logistics-list"></div>
       </div>
 
       <div id="news" class="panel">
-        <h2>Post News Update</h2>
-        <p class="desc">Generate code for <b>news.html</b></p>
+        <h2>News Updates</h2>
+        <p class="desc">Post news and announcements</p>
+        
+        <div class="success-msg" id="news-success"></div>
+        <div class="error-msg" id="news-error"></div>
+        
         <div class="form-group">
           <label>Image Link</label>
           <input type="text" id="n-img" placeholder="https://...">
@@ -203,46 +228,67 @@
           <label>Headline</label>
           <input type="text" id="n-title" placeholder="e.g. Partnership with Shell">
           <label>Short Summary</label>
-          <textarea id="n-desc" rows="3"></textarea>
+          <textarea id="n-desc" rows="3" placeholder="Summary..."></textarea>
           <label>Link To Page (Optional)</label>
           <input type="text" id="n-link" placeholder="contact.html">
-          <button class="btn-generate" onclick="generateNews()">Generate Code</button>
+          <button class="btn-generate" onclick="saveNews()">Save to Database</button>
         </div>
-        <div class="output-area" id="n-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('n-code')">COPY</button>
-          <textarea id="n-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Recent News</h3>
+        <div class="items-list" id="news-list"></div>
       </div>
 
       <div id="gallery" class="panel">
-        <h2>Update Gallery</h2>
-        <p class="desc">Generate code for <b>gallery.html</b></p>
+        <h2>Gallery</h2>
+        <p class="desc">Update your project gallery</p>
+        
+        <div class="success-msg" id="gallery-success"></div>
+        <div class="error-msg" id="gallery-error"></div>
+        
         <div class="form-group">
           <label>Image URL</label>
           <input type="text" id="g-img" placeholder="https://...">
           <label>Caption / Project Name</label>
-          <input type="text" id="g-cap" placeholder="e.g. Grazeland Estate Inspection">
-          <button class="btn-generate" onclick="generateGallery()">Generate Code</button>
+          <input type="text" id="g-cap" placeholder="e.g. Grazeland Estate">
+          <button class="btn-generate" onclick="saveGallery()">Save to Database</button>
         </div>
-        <div class="output-area" id="g-output" style="display:none;">
-          <button class="copy-btn" onclick="copyCode('g-code')">COPY</button>
-          <textarea id="g-code" class="code-box"></textarea>
-        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Gallery Items</h3>
+        <div class="items-list" id="gallery-list"></div>
       </div>
 
     </div>
   </div>
 
   <script>
-    const PASSWORD = "@Folaranmi2003"; 
-    const WA_PHONE = "2349026824546"; 
-    const IG_USER = "harkein_synergies";
+    const API_URL = 'harkein-backend-production.up.railway.app'; // ⚠️ CHANGE THIS TO YOUR RAILWAY URL
+    const PASSWORD = "@Folaranmi2003";
+    let authToken = localStorage.getItem('authToken');
 
-    function checkLogin() {
-        if(document.getElementById("password").value === PASSWORD) {
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("main-interface").style.display = "flex";
-        } else {
+    async function checkLogin() {
+        const password = document.getElementById("password").value;
+        
+        try {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                authToken = data.token;
+                localStorage.setItem('authToken', authToken);
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-interface").style.display = "flex";
+                loadAllData();
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            document.getElementById("error-msg").textContent = "Connection error - Check backend URL";
             document.getElementById("error-msg").style.display = "block";
         }
     }
@@ -252,114 +298,207 @@
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         event.currentTarget.classList.add('active');
+        loadData(tabId);
     }
 
-    function copyCode(id) {
-        document.getElementById(id).select();
-        document.execCommand("copy");
-        alert("Code copied! Paste it into the correct HTML file.");
+    function logout() { 
+        localStorage.removeItem('authToken');
+        location.reload(); 
     }
 
-    function logout() { location.reload(); }
+    function showMessage(type, section, message) {
+        const el = document.getElementById(`${section}-${type}`);
+        el.textContent = message;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+    }
 
-    // --- GENERATORS ---
+    async function saveFashion() {
+        const data = {
+            img: document.getElementById('f-img').value,
+            name: document.getElementById('f-name').value,
+            price: document.getElementById('f-price').value,
+            category: document.getElementById('f-cat').value
+        };
+        await saveItem('fashion', data);
+        loadData('fashion');
+        clearForm('f');
+    }
 
-    function generateFashion() {
-        const img = document.getElementById('f-img').value;
-        const name = document.getElementById('f-name').value;
-        const price = document.getElementById('f-price').value;
-        const code = `
-        <div class="division-card">
-            <img src="${img}" alt="${name}">
-            <div class="division-overlay">
-                <h3>${name}</h3>
-                <p>₦${price}</p>
-                <a href="https://wa.me/${WA_PHONE}?text=Order ${name}" class="division-link">Order Now</a>
+    async function saveProperty() {
+        const data = {
+            img: document.getElementById('p-img').value,
+            title: document.getElementById('p-title').value,
+            price: document.getElementById('p-price').value,
+            location: document.getElementById('p-loc').value,
+            status: document.getElementById('p-status').value
+        };
+        await saveItem('property', data);
+        loadData('realestate');
+        clearForm('p');
+    }
+
+    async function saveEnergy() {
+        const data = {
+            img: document.getElementById('e-img').value,
+            title: document.getElementById('e-title').value,
+            desc: document.getElementById('e-desc').value
+        };
+        await saveItem('energy', data);
+        loadData('energy');
+        clearForm('e');
+    }
+
+    async function saveSolutions() {
+        const data = {
+            img: document.getElementById('s-img').value,
+            title: document.getElementById('s-title').value,
+            desc: document.getElementById('s-desc').value
+        };
+        await saveItem('solutions', data);
+        loadData('solutions');
+        clearForm('s');
+    }
+
+    async function saveLogistics() {
+        const data = {
+            icon: document.getElementById('l-icon').value,
+            title: document.getElementById('l-title').value,
+            desc: document.getElementById('l-desc').value
+        };
+        await saveItem('logistics', data);
+        loadData('logistics');
+        clearForm('l');
+    }
+
+    async function saveNews() {
+        const data = {
+            img: document.getElementById('n-img').value,
+            title: document.getElementById('n-title').value,
+            desc: document.getElementById('n-desc').value,
+            date: document.getElementById('n-date').value,
+            link: document.getElementById('n-link').value
+        };
+        await saveItem('news', data);
+        loadData('news');
+        clearForm('n');
+    }
+
+    async function saveGallery() {
+        const data = {
+            img: document.getElementById('g-img').value,
+            caption: document.getElementById('g-cap').value
+        };
+        await saveItem('gallery', data);
+        loadData('gallery');
+        clearForm('g');
+    }
+
+    async function saveItem(type, data) {
+        try {
+            const response = await fetch(`${API_URL}/api/items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify({ type, data })
+            });
+            
+            if (response.ok) {
+                showMessage('success', type, '✅ Item saved successfully!');
+            } else {
+                showMessage('error', type, '❌ Error saving item');
+            }
+        } catch (error) {
+            console.error('Save error:', error);
+            showMessage('error', type, '❌ Connection error');
+        }
+    }
+
+    async function deleteItem(type, id) {
+        if (!confirm('Are you sure you want to delete this item?')) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/api/items/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            
+            if (response.ok) {
+                loadData(type);
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+        }
+    }
+
+    async function loadData(section) {
+        const typeMap = {
+            'fashion': 'fashion',
+            'realestate': 'property',
+            'energy': 'energy',
+            'solutions': 'solutions',
+            'logistics': 'logistics',
+            'news': 'news',
+            'gallery': 'gallery'
+        };
+        
+        const type = typeMap[section];
+        if (!type) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/api/items/${type}`);
+            const items = await response.json();
+            displayItems(section, type, items);
+        } catch (error) {
+            console.error('Load error:', error);
+        }
+    }
+
+    function displayItems(section, type, items) {
+        const listId = `${section === 'realestate' ? 'property' : section}-list`;
+        const list = document.getElementById(listId);
+        
+        if (items.length === 0) {
+            list.innerHTML = '<p style="color: #999;">No items yet</p>';
+            return;
+        }
+        
+        list.innerHTML = items.map(item => `
+            <div class="item-card">
+                <h3>${item.data.name || item.data.title || item.data.caption}</h3>
+                ${item.data.price ? `<p><strong>Price:</strong> ${item.data.price}</p>` : ''}
+                ${item.data.location ? `<p><strong>Location:</strong> ${item.data.location}</p>` : ''}
+                ${item.data.desc ? `<p>${item.data.desc.substring(0, 100)}...</p>` : ''}
+                <p><small>Created: ${new Date(item.createdAt).toLocaleDateString()}</small></p>
+                <div class="item-actions">
+                    <button class="btn-delete" onclick="deleteItem('${section}', '${item._id}')">Delete</button>
+                </div>
             </div>
-        </div>`;
-        document.getElementById('f-code').value = code;
-        document.getElementById('f-output').style.display = 'block';
+        `).join('');
     }
 
-    function generateProperty() {
-        const img = document.getElementById('p-img').value;
-        const title = document.getElementById('p-title').value;
-        const price = document.getElementById('p-price').value;
-        const loc = document.getElementById('p-loc').value;
-        const code = `
-        <div class="division-card">
-            <img src="${img}" alt="${title}">
-            <div class="division-overlay">
-                <h3>${title}</h3>
-                <p>${loc} - ₦${price}</p>
-                <a href="https://wa.me/${WA_PHONE}?text=Inquire ${title}" class="division-link">View Details</a>
-            </div>
-        </div>`;
-        document.getElementById('p-code').value = code;
-        document.getElementById('p-output').style.display = 'block';
+    function clearForm(prefix) {
+        document.querySelectorAll(`[id^="${prefix}-"]`).forEach(el => {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = '';
+        });
     }
 
-    function generateService(prefix) {
-        const img = document.getElementById(prefix+'-img').value;
-        const title = document.getElementById(prefix+'-title').value;
-        const desc = document.getElementById(prefix+'-desc').value;
-        const code = `
-        <div class="split-section">
-            <div class="text-content">
-                <h2>${title}</h2>
-                <p>${desc}</p>
-                <a href="contact.html" class="btn-main">Contact Us</a>
-            </div>
-            <div class="image-content"><img src="${img}" alt="${title}"></div>
-        </div>`;
-        document.getElementById(prefix+'-code').value = code;
-        document.getElementById(prefix+'-output').style.display = 'block';
+    function loadAllData() {
+        loadData('fashion');
+        loadData('realestate');
+        loadData('energy');
+        loadData('solutions');
+        loadData('logistics');
+        loadData('news');
+        loadData('gallery');
     }
 
-    function generateLogistics() {
-        const icon = document.getElementById('l-icon').value;
-        const title = document.getElementById('l-title').value;
-        const desc = document.getElementById('l-desc').value;
-        const code = `
-        <div class="trading-item">
-            <i class="${icon}"></i>
-            <h3>${title}</h3>
-            <p>${desc}</p>
-        </div>`;
-        document.getElementById('l-code').value = code;
-        document.getElementById('l-output').style.display = 'block';
-    }
-
-    function generateNews() {
-        const img = document.getElementById('n-img').value;
-        const date = document.getElementById('n-date').value;
-        const title = document.getElementById('n-title').value;
-        const desc = document.getElementById('n-desc').value;
-        const link = document.getElementById('n-link').value;
-        const code = `
-        <div class="news-card">
-            <img src="${img}" alt="${title}" class="news-img">
-            <div class="news-content">
-                <span class="news-date">${date}</span>
-                <h3>${title}</h3>
-                <p>${desc}</p>
-                <a href="${link}" class="read-more">Read More →</a>
-            </div>
-        </div>`;
-        document.getElementById('n-code').value = code;
-        document.getElementById('n-output').style.display = 'block';
-    }
-
-    function generateGallery() {
-        const img = document.getElementById('g-img').value;
-        const cap = document.getElementById('g-cap').value;
-        const code = `
-        <div class="gallery-item">
-            <img src="${img}" alt="${cap}">
-            <div class="overlay"><div class="caption">${cap}</div></div>
-        </div>`;
-        document.getElementById('g-code').value = code;
-        document.getElementById('g-output').style.display = 'block';
+    if (authToken) {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("main-interface").style.display = "flex";
+        loadAllData();
     }
   </script>
 </body>
