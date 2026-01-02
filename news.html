@@ -21,22 +21,9 @@
     .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; padding: 5px; border: 1px solid transparent; transition: 0.3s; }
     .hamburger:hover { border-color: var(--gold); border-radius: 4px; }
     
-    /* SOCIAL ICONS IN HEADER */
-    .header-social {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .social-icon {
-      color: var(--gold);
-      font-size: 20px;
-      transition: 0.3s;
-      text-decoration: none;
-    }
-    .social-icon:hover {
-      color: white;
-      transform: scale(1.1);
-    }
+    .header-social { display: flex; align-items: center; gap: 20px; }
+    .social-icon { color: var(--gold); font-size: 20px; transition: 0.3s; text-decoration: none; }
+    .social-icon:hover { color: white; transform: scale(1.1); }
     
     .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; display: none; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
     .nav-menu.active { display: flex; animation: slideDown 0.3s ease-out; }
@@ -60,56 +47,61 @@
     .news-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
     .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
     
-    /* CONSISTENT IMAGE SIZING */
-    .news-img { 
-      width: 100%; 
-      height: 250px; 
-      object-fit: cover;
-      object-position: center;
-      transition: transform 0.3s ease;
+    /* --- FIXED IMAGE STYLING (THE MAGIC PART) --- */
+    .news-image-box {
+        width: 100%;
+        height: 250px;
+        background-color: #f0f0f0; /* Light grey background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
     }
-    .news-card:hover .news-img {
-      transform: scale(1.05);
+
+    .news-img { 
+      max-width: 100%; 
+      max-height: 100%; 
+      width: auto;
+      height: auto;
+      object-fit: contain; /* THIS PREVENTS ZOOMING/CROPPING */
+      padding: 10px;
     }
     
     .news-content { padding: 25px; }
     .news-date { color: var(--gold); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
     .news-card h3 { color: var(--navy); margin: 0 0 15px; font-size: 20px; line-height: 1.4; }
     .news-card p { font-size: 14px; color: #64748b; margin-bottom: 20px; line-height: 1.6; }
-    .read-more { 
+    
+    .read-more-btn { 
+      background: none; border: none; cursor: pointer;
       color: var(--navy); 
       font-weight: 700; 
-      text-decoration: none; 
       font-size: 13px; 
       text-transform: uppercase; 
       letter-spacing: 1px;
       display: inline-block;
       transition: 0.3s;
+      padding: 0;
     }
-    .read-more:hover { 
+    .read-more-btn:hover { 
       color: var(--gold); 
       transform: translateX(5px);
     }
 
-    /* LOADING STATE */
-    .loading {
-      text-align: center;
-      padding: 100px 20px;
-      color: var(--text);
-      font-size: 18px;
-      grid-column: 1 / -1;
+    /* --- MODAL (POP-UP) STYLES --- */
+    .modal {
+        display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.85);
+        overflow-y: auto;
     }
-    .no-items {
-      text-align: center;
-      padding: 100px 20px;
-      color: var(--text);
-      grid-column: 1 / -1;
+    .modal-content {
+        background-color: #fff; margin: 5% auto; padding: 40px; border-radius: 8px; width: 90%; max-width: 700px; position: relative;
     }
-    .no-items h3 {
-      color: var(--navy);
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
+    .close-btn { color: #aaa; float: right; font-size: 30px; font-weight: bold; cursor: pointer; }
+    .close-btn:hover { color: var(--gold); }
+    .modal-img-container { text-align: center; margin-bottom: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px; }
+    .modal-img { max-width: 100%; height: auto; max-height: 300px; object-fit: contain; }
+    .modal-text { line-height: 1.8; color: var(--text); }
 
     /* FOOTER */
     footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px;}
@@ -119,26 +111,12 @@
     .footer-col ul li { margin-bottom: 10px; }
     .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
     .footer-col a:hover { color: var(--gold); }
-    
-    /* FOOTER SOCIAL ICONS */
-    .footer-social {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    .footer-social a {
-      color: var(--gold);
-      font-size: 24px;
-      transition: 0.3s;
-    }
-    .footer-social a:hover {
-      color: white;
-      transform: translateY(-3px);
-    }
+    .footer-social { display: flex; gap: 15px; margin-top: 15px; }
+    .footer-social a { color: var(--gold); font-size: 24px; transition: 0.3s; }
+    .footer-social a:hover { color: white; transform: translateY(-3px); }
 
     @media(max-width:768px){
       .hero-text h1 { font-size: 32px; }
-      .news-img { height: 200px; }
     }
   </style>
 </head>
@@ -148,15 +126,9 @@
     <div class="container topbar">
       <a href="index.html" class="logo-img"><img src="9227.jpg" alt="HARKEIN"></a>
       <div class="header-social">
-        <a href="https://instagram.com/harkein_synergies" target="_blank" class="social-icon" title="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="mailto:infoharkein@gmail.com" class="social-icon" title="Email Us">
-          <i class="fas fa-envelope"></i>
-        </a>
-        <a href="https://wa.me/2349026824546" target="_blank" class="social-icon" title="WhatsApp">
-          <i class="fab fa-whatsapp"></i>
-        </a>
+        <a href="https://instagram.com/harkein_synergies" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:infoharkein@gmail.com" class="social-icon"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/2349026824546" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
       </div>
       <nav class="nav-menu" id="navMenu">
@@ -178,10 +150,23 @@
 
     <section class="container news-section">
         <div class="news-grid" id="news-grid">
-            <div class="loading">Loading news...</div>
+            <div class="loading">Loading news from database...</div>
         </div>
     </section>
   </main>
+
+  <div id="dynamicModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeDynamicModal()">&times;</span>
+        <div class="modal-img-container">
+            <img id="modalImg" src="" alt="News Image" class="modal-img">
+        </div>
+        <h2 id="modalTitle" style="color:var(--navy); margin-top:0;"></h2>
+        <p id="modalDate" class="news-date"></p>
+        <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+        <div id="modalBody" class="modal-text"></div>
+    </div>
+  </div>
 
   <footer>
     <div class="container footer-content">
@@ -189,15 +174,9 @@
             <h4>Harkein Synergies</h4>
             <p>A multi-sector conglomerate dedicated to excellence in Logistics, Real Estate, and Fashion.</p>
             <div class="footer-social">
-              <a href="https://instagram.com/harkein_synergies" target="_blank" title="Instagram">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="mailto:infoharkein@gmail.com" title="Email">
-                <i class="fas fa-envelope"></i>
-              </a>
-              <a href="https://wa.me/2349026824546" target="_blank" title="WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-              </a>
+              <a href="https://instagram.com/harkein_synergies" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="mailto:infoharkein@gmail.com"><i class="fas fa-envelope"></i></a>
+              <a href="https://wa.me/2349026824546" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
         <div class="footer-col">
@@ -221,9 +200,6 @@
             <p>Email: <a href="mailto:infoharkein@gmail.com">infoharkein@gmail.com</a></p>
             <p>Phone: <a href="tel:+2349026824546">+234 902 682 4546</a></p>
             <p style="margin-top: 15px;">&copy; 2025 Harkein Synergies.</p>
-            <p style="font-size: 12px; margin-top: 10px;">
-                <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
-            </p>
         </div>
     </div>
   </footer>
@@ -232,24 +208,14 @@
     function toggleMenu() { document.getElementById("navMenu").classList.toggle("active"); }
 
     const API_URL = 'https://harkein-backend-production.up.railway.app';
+    let globalNewsData = []; // Store downloaded news here
 
-    function createNewsSlug(title, id) {
-      // Create URL-friendly slug from title
-      const slug = title.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      return `news-article-${id}.html`;
-    }
-
-    function truncateText(text, maxLength) {
-      if (text.length <= maxLength) return text;
-      return text.substr(0, maxLength).trim() + '...';
-    }
-
+    // 1. Fetch News from Database
     async function loadNews() {
       try {
         const response = await fetch(`${API_URL}/api/news`);
         const items = await response.json();
+        globalNewsData = items; // Save for pop-up usage
         
         const grid = document.getElementById('news-grid');
         
@@ -257,52 +223,64 @@
           grid.innerHTML = `
             <div class="no-items">
               <h3>No News Yet</h3>
-              <p>Stay tuned for company updates and announcements!</p>
-              <div style="margin-top: 20px;">
-                <a href="mailto:infoharkein@gmail.com" style="color: var(--gold); text-decoration: underline;">Contact Us</a>
-              </div>
-            </div>
-          `;
+              <p>Stay tuned for company updates!</p>
+            </div>`;
           return;
         }
         
         // Sort by date (newest first)
         items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         
-        grid.innerHTML = items.map(item => {
-          const articlePage = createNewsSlug(item.data.title, item._id);
-          const shortDesc = truncateText(item.data.desc || '', 120);
-          
+        // Generate HTML automatically
+        grid.innerHTML = items.map((item, index) => {
+          const shortDesc = item.data.desc ? item.data.desc.substring(0, 100) + '...' : '';
+          const dateStr = item.data.date || new Date(item.createdAt).toLocaleDateString();
+
           return `
             <div class="news-card">
-              <img src="${item.data.img}" alt="${item.data.title}" class="news-img" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80'">
+              <div class="news-image-box">
+                  <img src="${item.data.img}" alt="${item.data.title}" class="news-img" onerror="this.src='https://via.placeholder.com/300'">
+              </div>
               <div class="news-content">
-                <span class="news-date">${item.data.date || new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                <span class="news-date">${dateStr}</span>
                 <h3>${item.data.title}</h3>
                 <p>${shortDesc}</p>
-                <a href="${articlePage}" class="read-more">Read More →</a>
+                <button class="read-more-btn" onclick="openDynamicModal(${index})">Read More →</button>
               </div>
             </div>
           `;
         }).join('');
         
-        // Save news data to localStorage for individual pages to use
-        localStorage.setItem('harkeinNews', JSON.stringify(items));
-        
       } catch (error) {
         console.error('Error loading news:', error);
-        document.getElementById('news-grid').innerHTML = `
-          <div class="no-items">
-            <h3>Unable to Load News</h3>
-            <p>Please check back later or contact us directly.</p>
-            <div style="margin-top: 20px;">
-              <a href="mailto:infoharkein@gmail.com" style="color: var(--gold); text-decoration: underline;">
-                <i class="fas fa-envelope"></i> Email Us
-              </a>
-            </div>
-          </div>
-        `;
+        document.getElementById('news-grid').innerHTML = '<h3>Unable to load news. Please check connection.</h3>';
       }
+    }
+
+    // 2. Open the Pop-up with the correct Database Item
+    function openDynamicModal(index) {
+        const item = globalNewsData[index];
+        
+        document.getElementById('modalImg').src = item.data.img;
+        document.getElementById('modalTitle').innerText = item.data.title;
+        document.getElementById('modalDate').innerText = item.data.date || "News Update";
+        
+        // Use full description in the pop-up
+        document.getElementById('modalBody').innerHTML = `<p>${item.data.desc}</p>`; 
+
+        document.getElementById('dynamicModal').style.display = "block";
+    }
+
+    // 3. Close the Pop-up
+    function closeDynamicModal() {
+        document.getElementById('dynamicModal').style.display = "none";
+    }
+
+    // Close if clicking outside the box
+    window.onclick = function(event) {
+        if (event.target.id === "dynamicModal") {
+            closeDynamicModal();
+        }
     }
 
     // Load news when page loads
