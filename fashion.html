@@ -102,6 +102,9 @@
     .footer-col ul li { margin-bottom: 10px; }
     .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
     .footer-col a:hover { color: var(--gold); }
+    .footer-social { display: flex; gap: 15px; margin-top: 15px; }
+    .footer-social a { color: var(--gold); font-size: 24px; transition: 0.3s; }
+    .footer-social a:hover { color: white; transform: translateY(-3px); }
     
     @media(max-width:768px){ 
       .hero-text h1 { font-size: 32px; }
@@ -111,23 +114,15 @@
 </head>
 <body>
 
-  <!-- STANDARDIZED HEADER WITH SOCIALS & HAMBURGER -->
+  <!-- HEADER (Social icons removed, only logo and hamburger remain) -->
   <header>
     <div class="container topbar">
       <a href="index.html" class="logo-img">
         <img src="9227.jpg" alt="HARKEIN SYNERGIES">
       </a>
       
-      <div style="display: flex; align-items: center; gap: 20px;">
-        <div class="header-socials" style="display: flex; gap: 15px; font-size: 18px;">
-          <a href="https://instagram.com/harkein_synergies" target="_blank" style="color: var(--gold);"><i class="fab fa-instagram"></i></a>
-          <a href="mailto:infoharkein@gmail.com" style="color: var(--gold);"><i class="fas fa-envelope"></i></a>
-          <a href="https://wa.me/2349026824546" target="_blank" style="color: var(--gold);"><i class="fab fa-whatsapp"></i></a>
-        </div>
-
-        <div class="hamburger" onclick="toggleMenu()">
-          <i class="fas fa-bars"></i>
-        </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
       </div>
 
       <nav class="nav-menu" id="navMenu">
@@ -166,17 +161,23 @@
     </section>
   </main>
 
+  <!-- UPGRADED FOOTER (Matches full corporate template with contact info and socials) -->
   <footer>
     <div class="container footer-content">
         <div class="footer-col">
             <h4>Harkein Synergies</h4>
-            <p>A multi-sector conglomerate dedicated to excellence in Logistics, Real Estate, and Fashion.</p>
+            <p>A multi-sector conglomerate dedicated to excellence.</p>
+            <div class="footer-social">
+              <a href="https://instagram.com/harkein_synergies" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="mailto:infoharkein@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+              <a href="https://wa.me/2349026824546" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </div>
         <div class="footer-col">
             <h4>Corporate</h4>
             <ul>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="index.html#trading">General Trading</a></li>
+                <li><a href="solutions.html">Enterprise Solutions</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
@@ -190,7 +191,9 @@
         </div>
         <div class="footer-col">
             <h4>Connect</h4>
-            <p>&copy; 2026 Harkein Synergies.</p>
+            <p>Email: <a href="mailto:infoharkein@gmail.com">infoharkein@gmail.com</a></p>
+            <p>Phone: <a href="tel:+2349026824546">+234 902 682 4546</a></p>
+            <p style="margin-top: 15px;">&copy; 2026 Harkein Synergies.</p>
             <p style="font-size: 12px; margin-top: 10px;">
                 <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
             </p>
