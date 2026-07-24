@@ -19,34 +19,34 @@
     
     .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); margin-top: 5px; }
 
-    /* SOCIAL ICONS IN HEADER */
-    .header-social {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .social-icon {
-      color: var(--gold);
-      font-size: 20px;
-      transition: 0.3s;
-      text-decoration: none;
-    }
-    .social-icon:hover {
-      color: white;
-      transform: scale(1.1);
-    }
+    /* HAMBURGER & MENU (Standardized) */
+    .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; padding: 5px; border: 1px solid transparent; transition: 0.3s; }
+    .hamburger:hover { border-color: var(--gold); border-radius: 4px; }
+    
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; display: none; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    .nav-menu.active { display: flex; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-    nav a{color:white; text-decoration:none; margin-left:25px; font-weight:500; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s;}
-    nav a:hover { color: var(--gold); }
-    .nav-social { color: var(--gold) !important; font-weight: 700; border-bottom: 1px solid transparent; }
-    .nav-social:hover { border-bottom: 1px solid var(--gold); }
+    .nav-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 100%; text-align: center; padding: 10px 0; }
+    .nav-menu a:hover { color: var(--gold); background: rgba(255,255,255,0.05); }
+    .nav-btn { border: 1px solid var(--gold); padding: 12px 30px !important; border-radius: 4px; color: var(--gold) !important; display: inline-block; width: auto !important; margin-top: 10px; }
+    .nav-btn:hover { background: var(--gold); color: var(--navy) !important; }
 
-    /* HERO */
-    .page-hero { height: 60vh; background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
-    .page-hero::after { content:''; position:absolute; inset:0; background: linear-gradient(0deg, var(--navy), transparent); opacity: 0.85; }
+    /* HERO - Updated with High Quality Image & Gradient Overlay */
+    .page-hero { 
+        height: 60vh; 
+        background-image: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.65) 50%, rgba(15,23,42,0.9) 100%), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80'); 
+        background-size: cover; 
+        background-position: center; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        position: relative; 
+    }
+    
     .hero-text { position: relative; z-index: 2; text-align: center; color: white; }
-    .hero-text h1 { font-size: 48px; margin: 0; font-weight: 800; letter-spacing: 2px; }
-    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .hero-text h1 { font-size: 48px; margin: 0; font-weight: 800; letter-spacing: 2px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
     /* SECTIONS */
     section { padding: 80px 0; }
@@ -151,11 +151,9 @@
     }
     
     @media(max-width:768px){ 
-      .topbar { flex-direction: column; gap: 15px; } 
-      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; } 
+      .hero-text h1 { font-size: 32px; }
       .split-section { flex-direction: column !important; } 
       .image-content { width: 100%; height: 300px; }
-      .hero-text h1 { font-size: 32px; }
       .action-buttons { flex-direction: column; }
       .btn-main, .btn-email { width: 100%; justify-content: center; }
     }
@@ -163,27 +161,36 @@
 </head>
 <body>
 
+  <!-- STANDARDIZED HEADER WITH SOCIALS & HAMBURGER -->
   <header>
     <div class="container topbar">
       <a href="index.html" class="logo-img">
         <img src="9227.jpg" alt="HARKEIN SYNERGIES">
       </a>
-      <div class="header-social">
-        <a href="https://instagram.com/harkein_synergies" target="_blank" class="social-icon" title="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="mailto:infoharkein@gmail.com" class="social-icon" title="Email Us">
-          <i class="fas fa-envelope"></i>
-        </a>
-        <a href="https://wa.me/2349026824546" target="_blank" class="social-icon" title="WhatsApp">
-          <i class="fab fa-whatsapp"></i>
-        </a>
+      
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="header-socials" style="display: flex; gap: 15px; font-size: 18px;">
+          <a href="https://instagram.com/harkein_synergies" target="_blank" style="color: var(--gold);"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:infoharkein@gmail.com" style="color: var(--gold);"><i class="fas fa-envelope"></i></a>
+          <a href="https://wa.me/2349026824546" target="_blank" style="color: var(--gold);"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="hamburger" onclick="toggleMenu()">
+          <i class="fas fa-bars"></i>
+        </div>
       </div>
-      <nav>
+
+      <nav class="nav-menu" id="navMenu">
         <a href="index.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="properties.html">Properties</a>
-        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+        <a href="properties.html">Real Estate</a>
+        <a href="commodities.html" style="color:var(--gold);">Energy & Agric</a>
+        <a href="solutions.html">Tech Solutions</a> 
+        <a href="fashion.html">Fashion</a>
+        <a href="procurement.html">Logistics</a>
+        <a href="news.html">News</a> 
+        <a href="gallery.html">Gallery</a> 
+        <a href="contact.html" class="nav-btn">Contact</a>
       </nav>
     </div>
   </header>
@@ -238,7 +245,7 @@
             <h4>Connect</h4>
             <p>Email: <a href="mailto:infoharkein@gmail.com">infoharkein@gmail.com</a></p>
             <p>Phone: <a href="tel:+2349026824546">+234 902 682 4546</a></p>
-            <p style="margin-top: 15px;">&copy; 2025 Harkein Synergies.</p>
+            <p style="margin-top: 15px;">&copy; 2026 Harkein Synergies.</p>
             <p style="font-size: 12px; margin-top: 10px;">
                 <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
             </p>
@@ -247,6 +254,12 @@
   </footer>
 
   <script>
+    // Navigation Toggle Logic
+    function toggleMenu() { 
+      document.getElementById("navMenu").classList.toggle("active"); 
+    }
+
+    // API Logic
     const API_URL = 'https://harkein-backend-production.up.railway.app';
     const WA_PHONE = '2349026824546';
     const EMAIL = 'infoharkein@gmail.com';
