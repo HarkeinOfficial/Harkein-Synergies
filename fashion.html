@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>HARKEIN FASHION — Luxury & Bespoke</title>
   <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     /* SHARED CORPORATE THEME */
     :root{ --navy: #0f172a; --gold: #d4af37; --gold-light: #f3e5ab; --grey: #f8fafc; --text: #334155; --white: #ffffff; }
@@ -19,19 +20,34 @@
     /* LOGO STYLES */
     .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); margin-top: 5px; }
 
-    nav a{color:white; text-decoration:none; margin-left:25px; font-weight:500; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s;}
-    nav a:hover { color: var(--gold); }
-    .nav-social { color: var(--gold) !important; font-weight: 700; border-bottom: 1px solid transparent; }
-    .nav-social:hover { border-bottom: 1px solid var(--gold); }
-    .nav-btn { border: 1px solid var(--gold); padding: 8px 16px; border-radius: 4px; color: var(--gold) !important; }
+    /* HAMBURGER & MENU (Standardized) */
+    .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; padding: 5px; border: 1px solid transparent; transition: 0.3s; }
+    .hamburger:hover { border-color: var(--gold); border-radius: 4px; }
+    
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; display: none; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    .nav-menu.active { display: flex; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .nav-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 100%; text-align: center; padding: 10px 0; }
+    .nav-menu a:hover { color: var(--gold); background: rgba(255,255,255,0.05); }
+    .nav-btn { border: 1px solid var(--gold); padding: 12px 30px !important; border-radius: 4px; color: var(--gold) !important; display: inline-block; width: auto !important; margin-top: 10px; }
     .nav-btn:hover { background: var(--gold); color: var(--navy) !important; }
 
-    /* HERO */
-    .page-hero { height: 60vh; background-image: url('https://images.unsplash.com/photo-1490481651871-61109968a3fb?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative; }
-    .page-hero::after { content:''; position:absolute; inset:0; background: rgba(15,23,42,0.5); }
+    /* HERO - Updated with High Quality Image & Gradient Overlay */
+    .page-hero { 
+        height: 60vh; 
+        background-image: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.65) 50%, rgba(15,23,42,0.9) 100%), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80'); 
+        background-size: cover; 
+        background-position: center; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        position: relative; 
+    }
+    
     .hero-text { position: relative; z-index: 2; text-align: center; color: white; }
-    .hero-text h1 { font-size: 48px; margin: 0; font-weight: 800; letter-spacing: 2px; }
-    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .hero-text h1 { font-size: 48px; margin: 0; font-weight: 800; letter-spacing: 2px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
     .hero-btn { display: inline-block; margin-top: 20px; padding: 10px 25px; background: var(--gold); color: var(--navy); text-decoration: none; font-weight: 700; border-radius: 4px; transition: 0.3s; }
     .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(212,175,55,0.4); }
 
@@ -88,9 +104,6 @@
     .footer-col a:hover { color: var(--gold); }
     
     @media(max-width:768px){ 
-      .topbar { flex-direction: column; gap: 15px; } 
-      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; } 
-      nav a { margin: 0; }
       .hero-text h1 { font-size: 32px; }
       .product-img { height: 300px; }
     }
@@ -98,17 +111,36 @@
 </head>
 <body>
 
+  <!-- STANDARDIZED HEADER WITH SOCIALS & HAMBURGER -->
   <header>
     <div class="container topbar">
       <a href="index.html" class="logo-img">
         <img src="9227.jpg" alt="HARKEIN SYNERGIES">
       </a>
-      <nav>
+      
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="header-socials" style="display: flex; gap: 15px; font-size: 18px;">
+          <a href="https://instagram.com/harkein_synergies" target="_blank" style="color: var(--gold);"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:infoharkein@gmail.com" style="color: var(--gold);"><i class="fas fa-envelope"></i></a>
+          <a href="https://wa.me/2349026824546" target="_blank" style="color: var(--gold);"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <div class="hamburger" onclick="toggleMenu()">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+
+      <nav class="nav-menu" id="navMenu">
         <a href="index.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="index.html#divisions">Sectors</a>
-        <a href="procurement.html">Procurement</a>
-        <a href="contact.html" class="nav-btn">Contact Us</a>
+        <a href="about.html">About</a>
+        <a href="properties.html">Real Estate</a>
+        <a href="commodities.html">Energy & Agric</a>
+        <a href="solutions.html">Tech Solutions</a> 
+        <a href="fashion.html" style="color:var(--gold);">Fashion</a>
+        <a href="procurement.html">Logistics</a>
+        <a href="news.html">News</a> 
+        <a href="gallery.html">Gallery</a> 
+        <a href="contact.html" class="nav-btn">Contact</a>
       </nav>
     </div>
   </header>
@@ -145,7 +177,7 @@
             <ul>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="index.html#trading">General Trading</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -153,12 +185,12 @@
             <ul>
                 <li><a href="properties.html">Properties</a></li>
                 <li><a href="fashion.html">Fashion</a></li>
-                <li><a href="index.html#contact">Logistics</a></li>
+                <li><a href="procurement.html">Logistics</a></li>
             </ul>
         </div>
         <div class="footer-col">
             <h4>Connect</h4>
-            <p>&copy; 2025 Harkein Synergies.</p>
+            <p>&copy; 2026 Harkein Synergies.</p>
             <p style="font-size: 12px; margin-top: 10px;">
                 <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a>
             </p>
@@ -167,6 +199,12 @@
   </footer>
 
   <script>
+    // Navigation Toggle Logic
+    function toggleMenu() { 
+      document.getElementById("navMenu").classList.toggle("active"); 
+    }
+
+    // Railway API Logic
     const API_URL = 'https://harkein-backend-production.up.railway.app';
     const WA_PHONE = '2349026824546';
 
