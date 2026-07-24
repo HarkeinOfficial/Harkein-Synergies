@@ -11,44 +11,32 @@
     *{box-sizing:border-box}
     body{font-family: 'Segoe UI', sans-serif; margin:0; background:var(--navy); color:#333; height: 100vh; overflow: hidden;}
 
+    /* LOGIN SCREEN */
     #login-screen { position: fixed; inset: 0; background: var(--navy); z-index: 2000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     .login-box { background: white; padding: 40px; border-radius: 8px; text-align: center; width: 350px; border-top: 5px solid var(--gold); }
     .login-box h2 { margin-top: 0; color: var(--navy); }
     .login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; text-align: center;}
-    .login-btn { width: 100%; padding: 12px; background: var(--navy); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .login-btn { width: 100%; padding: 12px; background: var(--navy); color: white; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 4px;}
     .login-btn:hover { background: var(--gold); color: var(--navy); }
 
+    /* LAYOUT */
     #main-interface { display: none; height: 100vh; } 
-    
     .sidebar { width: 260px; background: rgba(0,0,0,0.3); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
     .brand { color: white; font-size: 20px; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
     .brand span { color: var(--gold); }
     
     /* SESSION TIMER */
-    .session-timer {
-      background: rgba(212,175,55,0.2);
-      color: var(--gold);
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 12px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .session-timer.warning {
-      background: rgba(239,68,68,0.2);
-      color: #ef4444;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
+    .session-timer { background: rgba(212,175,55,0.2); color: var(--gold); padding: 10px; border-radius: 4px; font-size: 12px; text-align: center; margin-bottom: 20px; }
+    .session-timer.warning { background: rgba(239,68,68,0.2); color: #ef4444; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
     
+    /* NAVIGATION */
     .nav-category { color: var(--gold); font-size: 12px; text-transform: uppercase; font-weight: bold; margin-top: 20px; margin-bottom: 10px; }
     .nav-item { padding: 12px 15px; color: rgba(255,255,255,0.8); cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.2s; display: flex; align-items: center; gap: 10px; font-size: 14px; }
     .nav-item:hover, .nav-item.active { background: var(--gold); color: var(--navy); font-weight: 700; }
     
-    .main-content { flex: 1; background: var(--grey); padding: 40px; overflow-y: auto; }
+    /* MAIN CONTENT & FORMS */
+    .main-content { flex: 1; background: var(--grey); padding: 40px; overflow-y: auto; position: relative; }
     .panel { display: none; animation: fadeIn 0.3s; }
     .panel.active { display: block; }
     
@@ -60,17 +48,34 @@
     input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
     .btn-generate { background: var(--navy); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; transition: 0.3s; }
     .btn-generate:hover { background: var(--gold); color: var(--navy); }
+    .btn-generate:disabled { background: #94a3b8; cursor: not-allowed; }
 
+    /* IMAGE PREVIEW */
+    .img-preview-container { display: none; margin-bottom: 15px; text-align: center; background: #f8fafc; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 4px; }
+    .img-preview { max-width: 150px; max-height: 150px; border-radius: 4px; object-fit: contain; }
+
+    /* VISUAL ITEM CARDS */
     .items-list { max-width: 800px; }
-    .item-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .item-card h3 { margin: 0 0 10px 0; color: var(--navy); }
-    .item-card p { margin: 5px 0; color: #666; font-size: 14px; }
-    .item-actions { display: flex; gap: 10px; margin-top: 15px; }
-    .btn-delete { background: #dc2626; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 4px; font-size: 13px; }
-    .btn-delete:hover { background: #b91c1c; }
+    .item-card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; gap: 20px; align-items: flex-start; }
+    .item-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; background: #eee; flex-shrink: 0; }
+    .item-details { flex: 1; min-width: 0; }
+    .item-card h3 { margin: 0 0 5px 0; color: var(--navy); font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .item-card p { margin: 3px 0; color: #666; font-size: 13px; }
+    
+    /* ACTIONS */
+    .item-actions { display: flex; gap: 10px; margin-top: 10px; }
+    .btn-edit { background: #eab308; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .btn-edit:hover { background: #ca8a04; }
+    .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .btn-delete:hover { background: #dc2626; }
 
-    .success-msg { background: #10b981; color: white; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; }
-    .error-msg { background: #ef4444; color: white; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; }
+    /* TOAST NOTIFICATIONS */
+    #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { padding: 15px 25px; border-radius: 4px; color: white; font-weight: bold; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: slideInRight 0.3s ease-out forwards; display: flex; align-items: center; gap: 10px; }
+    .toast.success { background: #10b981; border-left: 5px solid #047857; }
+    .toast.error { background: #ef4444; border-left: 5px solid #b91c1c; }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; } }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
@@ -78,17 +83,22 @@
       #main-interface { flex-direction: column; }
       .sidebar { width: 100%; height: auto; max-height: 200px; }
       .main-content { padding: 20px; }
+      .item-card { flex-direction: column; }
+      .item-thumb { width: 100%; height: 150px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container"></div>
 
   <div id="login-screen">
     <div class="login-box">
       <h2>CEO ACCESS</h2>
       <p>Enter Access PIN</p>
       <input type="password" id="password" placeholder="****">
-      <button class="login-btn" onclick="checkLogin()">UNLOCK DASHBOARD</button>
+      <button class="login-btn" id="login-btn" onclick="checkLogin()">UNLOCK DASHBOARD</button>
       <p id="error-msg" style="color: red; display: none; margin-top: 10px; font-size: 14px;">Access Denied</p>
     </div>
   </div>
@@ -115,7 +125,7 @@
       <div class="nav-item" onclick="switchTab('news')"><i class="fas fa-newspaper"></i> Post News</div>
       <div class="nav-item" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Update Gallery</div>
 
-                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+      <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <div class="nav-item" onclick="logout()" style="color: var(--gold); border: 1px solid var(--gold); font-weight: bold; justify-content: center;">
           <i class="fas fa-sign-out-alt"></i> LOGOUT
         </div>
@@ -124,16 +134,18 @@
 
     <div class="main-content">
       
+      <!-- FASHION PANEL -->
       <div id="fashion" class="panel active">
         <h2>Fashion Store</h2>
-        <p class="desc">Add new fashion items to your store</p>
-        
-        <div class="success-msg" id="fashion-success"></div>
-        <div class="error-msg" id="fashion-error"></div>
+        <p class="desc">Add or edit fashion items in your store</p>
         
         <div class="form-group">
           <label>Image Link (URL)</label>
-          <input type="text" id="f-img" placeholder="https://...">
+          <input type="text" id="f-img" placeholder="https://..." oninput="updatePreview(this, 'f-preview')">
+          <div class="img-preview-container" id="f-preview-container">
+              <img src="" id="f-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Category</label>
           <select id="f-cat">
             <option>Men's Luxury</option>
@@ -144,23 +156,26 @@
           <input type="text" id="f-name" placeholder="e.g. Navy Blue Bespoke Suit">
           <label>Price (₦)</label>
           <input type="text" id="f-price" placeholder="e.g. 150,000">
-          <button class="btn-generate" onclick="saveFashion()">Save to Database</button>
+          <button class="btn-generate" id="btn-fashion" onclick="saveFashion()">Save to Database</button>
+          <button class="btn-generate" id="cancel-fashion" onclick="cancelEdit('fashion')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Current Items</h3>
         <div class="items-list" id="fashion-list"></div>
       </div>
 
+      <!-- REAL ESTATE PANEL -->
       <div id="realestate" class="panel">
         <h2>Real Estate</h2>
-        <p class="desc">Add properties to your portfolio</p>
-        
-        <div class="success-msg" id="property-success"></div>
-        <div class="error-msg" id="property-error"></div>
+        <p class="desc">Add or edit properties in your portfolio</p>
         
         <div class="form-group">
           <label>Image Link</label>
-          <input type="text" id="p-img" placeholder="https://...">
+          <input type="text" id="p-img" placeholder="https://..." oninput="updatePreview(this, 'p-preview')">
+          <div class="img-preview-container" id="p-preview-container">
+              <img src="" id="p-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Status</label>
           <select id="p-status"><option>For Sale</option><option>For Rent</option></select>
           <label>Location</label>
@@ -169,61 +184,66 @@
           <input type="text" id="p-title" placeholder="4 Bedroom Duplex">
           <label>Price</label>
           <input type="text" id="p-price" placeholder="₦120,000,000">
-          <button class="btn-generate" onclick="saveProperty()">Save to Database</button>
+          <button class="btn-generate" id="btn-realestate" onclick="saveProperty()">Save to Database</button>
+          <button class="btn-generate" id="cancel-realestate" onclick="cancelEdit('realestate')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Current Properties</h3>
         <div class="items-list" id="property-list"></div>
       </div>
 
+      <!-- ENERGY PANEL -->
       <div id="energy" class="panel">
         <h2>Energy & Agriculture</h2>
-        <p class="desc">Add energy and agriculture services</p>
-        
-        <div class="success-msg" id="energy-success"></div>
-        <div class="error-msg" id="energy-error"></div>
+        <p class="desc">Add or edit energy and agriculture services</p>
         
         <div class="form-group">
           <label>Image Link</label>
-          <input type="text" id="e-img" placeholder="https://...">
+          <input type="text" id="e-img" placeholder="https://..." oninput="updatePreview(this, 'e-preview')">
+          <div class="img-preview-container" id="e-preview-container">
+              <img src="" id="e-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Service Title</label>
           <input type="text" id="e-title" placeholder="e.g. Bulk Diesel Supply">
           <label>Description</label>
           <textarea id="e-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" onclick="saveEnergy()">Save to Database</button>
+          <button class="btn-generate" id="btn-energy" onclick="saveEnergy()">Save to Database</button>
+          <button class="btn-generate" id="cancel-energy" onclick="cancelEdit('energy')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Current Services</h3>
         <div class="items-list" id="energy-list"></div>
       </div>
 
+      <!-- SOLUTIONS PANEL -->
       <div id="solutions" class="panel">
         <h2>Data & FMCG Solutions</h2>
-        <p class="desc">Add business solutions</p>
-        
-        <div class="success-msg" id="solutions-success"></div>
-        <div class="error-msg" id="solutions-error"></div>
+        <p class="desc">Add or edit business solutions</p>
         
         <div class="form-group">
           <label>Image Link</label>
-          <input type="text" id="s-img" placeholder="https://...">
+          <input type="text" id="s-img" placeholder="https://..." oninput="updatePreview(this, 's-preview')">
+          <div class="img-preview-container" id="s-preview-container">
+              <img src="" id="s-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Service Title</label>
           <input type="text" id="s-title" placeholder="e.g. Data Analysis">
           <label>Description</label>
           <textarea id="s-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" onclick="saveSolutions()">Save to Database</button>
+          <button class="btn-generate" id="btn-solutions" onclick="saveSolutions()">Save to Database</button>
+          <button class="btn-generate" id="cancel-solutions" onclick="cancelEdit('solutions')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Current Solutions</h3>
         <div class="items-list" id="solutions-list"></div>
       </div>
 
+      <!-- LOGISTICS PANEL -->
       <div id="logistics" class="panel">
         <h2>Logistics Services</h2>
-        <p class="desc">Add logistics and procurement services</p>
-        
-        <div class="success-msg" id="logistics-success"></div>
-        <div class="error-msg" id="logistics-error"></div>
+        <p class="desc">Add or edit logistics and procurement services</p>
         
         <div class="form-group">
           <label>Icon Class (FontAwesome)</label>
@@ -232,23 +252,26 @@
           <input type="text" id="l-title" placeholder="e.g. Haulage Services">
           <label>Description</label>
           <textarea id="l-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" onclick="saveLogistics()">Save to Database</button>
+          <button class="btn-generate" id="btn-logistics" onclick="saveLogistics()">Save to Database</button>
+          <button class="btn-generate" id="cancel-logistics" onclick="cancelEdit('logistics')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Current Services</h3>
         <div class="items-list" id="logistics-list"></div>
       </div>
 
+      <!-- NEWS PANEL -->
       <div id="news" class="panel">
         <h2>News Updates</h2>
-        <p class="desc">Post news and announcements</p>
-        
-        <div class="success-msg" id="news-success"></div>
-        <div class="error-msg" id="news-error"></div>
+        <p class="desc">Post or edit news and announcements</p>
         
         <div class="form-group">
           <label>Image Link</label>
-          <input type="text" id="n-img" placeholder="https://...">
+          <input type="text" id="n-img" placeholder="https://..." oninput="updatePreview(this, 'n-preview')">
+          <div class="img-preview-container" id="n-preview-container">
+              <img src="" id="n-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Date</label>
           <input type="text" id="n-date" placeholder="Jan 01, 2026">
           <label>Headline</label>
@@ -257,26 +280,30 @@
           <textarea id="n-desc" rows="3" placeholder="Summary..."></textarea>
           <label>Link To Page (Optional)</label>
           <input type="text" id="n-link" placeholder="contact.html">
-          <button class="btn-generate" onclick="saveNews()">Save to Database</button>
+          <button class="btn-generate" id="btn-news" onclick="saveNews()">Save to Database</button>
+          <button class="btn-generate" id="cancel-news" onclick="cancelEdit('news')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Recent News</h3>
         <div class="items-list" id="news-list"></div>
       </div>
 
+      <!-- GALLERY PANEL -->
       <div id="gallery" class="panel">
         <h2>Gallery</h2>
-        <p class="desc">Update your project gallery</p>
-        
-        <div class="success-msg" id="gallery-success"></div>
-        <div class="error-msg" id="gallery-error"></div>
+        <p class="desc">Update or edit your project gallery</p>
         
         <div class="form-group">
           <label>Image URL</label>
-          <input type="text" id="g-img" placeholder="https://...">
+          <input type="text" id="g-img" placeholder="https://..." oninput="updatePreview(this, 'g-preview')">
+          <div class="img-preview-container" id="g-preview-container">
+              <img src="" id="g-preview" class="img-preview" alt="Preview">
+          </div>
+
           <label>Caption / Project Name</label>
           <input type="text" id="g-cap" placeholder="e.g. Grazeland Estate">
-          <button class="btn-generate" onclick="saveGallery()">Save to Database</button>
+          <button class="btn-generate" id="btn-gallery" onclick="saveGallery()">Save to Database</button>
+          <button class="btn-generate" id="cancel-gallery" onclick="cancelEdit('gallery')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
         <h3 style="margin-top: 40px; color: var(--navy);">Gallery Items</h3>
@@ -288,12 +315,17 @@
 
   <script>
     const API_URL = 'https://harkein-backend-production.up.railway.app';
-    const PASSWORD = "@Folaranmi2003";
     let authToken = localStorage.getItem('authToken');
     
+    // Global state for items and editing
+    let currentDataState = {}; 
+    let editingId = null;
+    let editingType = null;
+    let currentPanelId = 'fashion'; // default
+
     // AUTO-LOGOUT TIMER (30 minutes)
-    const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes in milliseconds
-    const WARNING_TIME = 5 * 60 * 1000; // Show warning at 5 minutes remaining
+    const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+    const WARNING_TIME = 5 * 60 * 1000; 
     let inactivityTimer;
     let sessionStartTime;
     let timerInterval;
@@ -303,7 +335,6 @@
       resetInactivityTimer();
       startTimerDisplay();
       
-      // Reset timer on any user activity
       ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
         document.addEventListener(event, resetInactivityTimer, true);
       });
@@ -312,7 +343,6 @@
     function resetInactivityTimer() {
       clearTimeout(inactivityTimer);
       sessionStartTime = Date.now();
-      
       inactivityTimer = setTimeout(() => {
         alert('Your session has expired due to inactivity. Please login again.');
         logout();
@@ -338,8 +368,6 @@
         
         if (timerElement) {
           timerElement.textContent = display;
-          
-          // Show warning when less than 5 minutes remaining
           if (remaining <= WARNING_TIME) {
             timerContainer.classList.add('warning');
           } else {
@@ -349,9 +377,15 @@
       }, 1000);
     }
 
+    // LOGIN & AUTH
     async function checkLogin() {
-        const password = document.getElementById("password").value;
+        const passwordInput = document.getElementById("password");
+        const btn = document.getElementById("login-btn");
+        const password = passwordInput.value;
         
+        btn.textContent = "VERIFYING...";
+        btn.disabled = true;
+
         try {
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
@@ -366,24 +400,19 @@
                 localStorage.setItem('authToken', authToken);
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-interface").style.display = "flex";
-                startInactivityTimer(); // Start the auto-logout timer
+                startInactivityTimer();
                 loadAllData();
             } else {
+                document.getElementById("error-msg").textContent = "Access Denied";
                 document.getElementById("error-msg").style.display = "block";
             }
         } catch (error) {
-            console.error('Login error:', error);
             document.getElementById("error-msg").textContent = "Connection error - Check backend URL";
             document.getElementById("error-msg").style.display = "block";
+        } finally {
+            btn.textContent = "UNLOCK DASHBOARD";
+            btn.disabled = false;
         }
-    }
-
-    function switchTab(tabId) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-        loadData(tabId);
     }
 
     function logout() { 
@@ -393,26 +422,103 @@
         location.reload(); 
     }
 
-    function showMessage(type, section, message) {
-        const el = document.getElementById(`${section}-${type}`);
-        el.textContent = message;
-        el.style.display = 'block';
-        setTimeout(() => el.style.display = 'none', 3000);
+    // UI HELPERS
+    function switchTab(tabId) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+        currentPanelId = tabId;
+        cancelEdit(tabId); // clear any active edits when switching tabs
+        loadData(tabId);
     }
 
-    async function saveFashion() {
+    function showToast(type, message) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = type === 'success' ? `<i class="fas fa-check-circle"></i> ${message}` : `<i class="fas fa-exclamation-circle"></i> ${message}`;
+        
+        container.appendChild(toast);
+        
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            toast.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function updatePreview(inputElement, previewId) {
+        const container = document.getElementById(`${previewId}-container`);
+        const img = document.getElementById(previewId);
+        
+        if (inputElement.value.trim() !== '') {
+            img.src = inputElement.value;
+            container.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+        }
+    }
+
+    // FORM HANDLING & SAVING
+    function setButtonLoading(btnId, isLoading) {
+        const btn = document.getElementById(btnId);
+        if(isLoading) {
+            btn.dataset.originalText = btn.textContent;
+            btn.textContent = "Saving...";
+            btn.disabled = true;
+        } else {
+            btn.textContent = btn.dataset.originalText || (editingId ? "Update Item" : "Save to Database");
+            btn.disabled = false;
+        }
+    }
+
+    async function processSave(panelId, type, data, prefix) {
+        setButtonLoading(`btn-${panelId}`, true);
+        
+        try {
+            // If editing, use PUT. Otherwise use POST.
+            const method = editingId ? 'PUT' : 'POST';
+            const url = editingId ? `${API_URL}/api/items/${editingId}` : `${API_URL}/api/items`;
+            
+            // If editing, ensure we pass the 'type' in case the backend requires it for the update payload
+            const payload = editingId ? { type, data } : { type, data };
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            if (response.ok) {
+                showToast('success', editingId ? 'Item updated successfully!' : 'Item saved successfully!');
+                cancelEdit(panelId); // Resets form and edit state
+                loadData(panelId);
+            } else {
+                showToast('error', 'Failed to save item.');
+            }
+        } catch (error) {
+            console.error('Save error:', error);
+            showToast('error', 'Network connection error.');
+        } finally {
+            setButtonLoading(`btn-${panelId}`, false);
+        }
+    }
+
+    function saveFashion() {
         const data = {
             img: document.getElementById('f-img').value,
             name: document.getElementById('f-name').value,
             price: document.getElementById('f-price').value,
             category: document.getElementById('f-cat').value
         };
-        await saveItem('fashion', data);
-        loadData('fashion');
-        clearForm('f');
+        processSave('fashion', 'fashion', data, 'f');
     }
 
-    async function saveProperty() {
+    function saveProperty() {
         const data = {
             img: document.getElementById('p-img').value,
             title: document.getElementById('p-title').value,
@@ -420,45 +526,37 @@
             location: document.getElementById('p-loc').value,
             status: document.getElementById('p-status').value
         };
-        await saveItem('property', data);
-        loadData('realestate');
-        clearForm('p');
+        processSave('realestate', 'property', data, 'p');
     }
 
-    async function saveEnergy() {
+    function saveEnergy() {
         const data = {
             img: document.getElementById('e-img').value,
             title: document.getElementById('e-title').value,
             desc: document.getElementById('e-desc').value
         };
-        await saveItem('energy', data);
-        loadData('energy');
-        clearForm('e');
+        processSave('energy', 'energy', data, 'e');
     }
 
-    async function saveSolutions() {
+    function saveSolutions() {
         const data = {
             img: document.getElementById('s-img').value,
             title: document.getElementById('s-title').value,
             desc: document.getElementById('s-desc').value
         };
-        await saveItem('solutions', data);
-        loadData('solutions');
-        clearForm('s');
+        processSave('solutions', 'solutions', data, 's');
     }
 
-    async function saveLogistics() {
+    function saveLogistics() {
         const data = {
             icon: document.getElementById('l-icon').value,
             title: document.getElementById('l-title').value,
             desc: document.getElementById('l-desc').value
         };
-        await saveItem('logistics', data);
-        loadData('logistics');
-        clearForm('l');
+        processSave('logistics', 'logistics', data, 'l');
     }
 
-    async function saveNews() {
+    function saveNews() {
         const data = {
             img: document.getElementById('n-img').value,
             title: document.getElementById('n-title').value,
@@ -466,44 +564,105 @@
             date: document.getElementById('n-date').value,
             link: document.getElementById('n-link').value
         };
-        await saveItem('news', data);
-        loadData('news');
-        clearForm('n');
+        processSave('news', 'news', data, 'n');
     }
 
-    async function saveGallery() {
+    function saveGallery() {
         const data = {
             img: document.getElementById('g-img').value,
             caption: document.getElementById('g-cap').value
         };
-        await saveItem('gallery', data);
-        loadData('gallery');
-        clearForm('g');
+        processSave('gallery', 'gallery', data, 'g');
     }
 
-    async function saveItem(type, data) {
-        try {
-            const response = await fetch(`${API_URL}/api/items`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
-                },
-                body: JSON.stringify({ type, data })
-            });
-            
-            if (response.ok) {
-                showMessage('success', type, '✅ Item saved successfully!');
-            } else {
-                showMessage('error', type, '❌ Error saving item');
-            }
-        } catch (error) {
-            console.error('Save error:', error);
-            showMessage('error', type, '❌ Connection error');
+    // EDITING LOGIC
+    function triggerEdit(panelId, itemType, id) {
+        editingId = id;
+        editingType = itemType;
+        
+        // Find the item from our stored state
+        const item = currentDataState[itemType].find(i => i._id === id);
+        if(!item) return;
+
+        // Change UI state
+        document.getElementById(`btn-${panelId}`).textContent = "Update Item";
+        document.getElementById(`btn-${panelId}`).dataset.originalText = "Update Item";
+        document.getElementById(`cancel-${panelId}`).style.display = "block";
+        
+        // Scroll to top of form
+        document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Populate fields based on type
+        if(panelId === 'fashion') {
+            document.getElementById('f-img').value = item.data.img || '';
+            document.getElementById('f-name').value = item.data.name || '';
+            document.getElementById('f-price').value = item.data.price || '';
+            document.getElementById('f-cat').value = item.data.category || "Men's Luxury";
+            updatePreview(document.getElementById('f-img'), 'f-preview');
+        } 
+        else if(panelId === 'realestate') {
+            document.getElementById('p-img').value = item.data.img || '';
+            document.getElementById('p-title').value = item.data.title || '';
+            document.getElementById('p-price').value = item.data.price || '';
+            document.getElementById('p-loc').value = item.data.location || '';
+            document.getElementById('p-status').value = item.data.status || 'For Sale';
+            updatePreview(document.getElementById('p-img'), 'p-preview');
+        }
+        else if(panelId === 'energy') {
+            document.getElementById('e-img').value = item.data.img || '';
+            document.getElementById('e-title').value = item.data.title || '';
+            document.getElementById('e-desc').value = item.data.desc || '';
+            updatePreview(document.getElementById('e-img'), 'e-preview');
+        }
+        else if(panelId === 'solutions') {
+            document.getElementById('s-img').value = item.data.img || '';
+            document.getElementById('s-title').value = item.data.title || '';
+            document.getElementById('s-desc').value = item.data.desc || '';
+            updatePreview(document.getElementById('s-img'), 's-preview');
+        }
+        else if(panelId === 'logistics') {
+            document.getElementById('l-icon').value = item.data.icon || '';
+            document.getElementById('l-title').value = item.data.title || '';
+            document.getElementById('l-desc').value = item.data.desc || '';
+        }
+        else if(panelId === 'news') {
+            document.getElementById('n-img').value = item.data.img || '';
+            document.getElementById('n-title').value = item.data.title || '';
+            document.getElementById('n-desc').value = item.data.desc || '';
+            document.getElementById('n-date').value = item.data.date || '';
+            document.getElementById('n-link').value = item.data.link || '';
+            updatePreview(document.getElementById('n-img'), 'n-preview');
+        }
+        else if(panelId === 'gallery') {
+            document.getElementById('g-img').value = item.data.img || '';
+            document.getElementById('g-cap').value = item.data.caption || '';
+            updatePreview(document.getElementById('g-img'), 'g-preview');
         }
     }
 
-    async function deleteItem(type, id) {
+    function cancelEdit(panelId) {
+        editingId = null;
+        editingType = null;
+        
+        // Reset UI state
+        const saveBtn = document.getElementById(`btn-${panelId}`);
+        if(saveBtn) {
+            saveBtn.textContent = "Save to Database";
+            saveBtn.dataset.originalText = "Save to Database";
+        }
+        const cancelBtn = document.getElementById(`cancel-${panelId}`);
+        if(cancelBtn) cancelBtn.style.display = "none";
+        
+        // Clear all inputs in the active panel
+        const panel = document.getElementById(panelId);
+        if(panel) {
+            panel.querySelectorAll('input, textarea').forEach(el => el.value = '');
+            panel.querySelectorAll('.img-preview-container').forEach(el => el.style.display = 'none');
+        }
+    }
+
+    // DELETE LOGIC
+    async function deleteItem(type, id, panelId) {
         if (!confirm('Are you sure you want to delete this item?')) return;
         
         try {
@@ -513,13 +672,20 @@
             });
             
             if (response.ok) {
-                loadData(type);
+                showToast('success', 'Item deleted successfully');
+                loadData(panelId);
+                // If we delete the item we were currently editing, cancel the edit
+                if(editingId === id) cancelEdit(panelId);
+            } else {
+                showToast('error', 'Failed to delete item');
             }
         } catch (error) {
             console.error('Delete error:', error);
+            showToast('error', 'Network error');
         }
     }
 
+    // DATA LOADING & DISPLAY
     async function loadData(section) {
         const typeMap = {
             'fashion': 'fashion',
@@ -537,6 +703,10 @@
         try {
             const response = await fetch(`${API_URL}/api/items/${type}`);
             const items = await response.json();
+            
+            // Store globally for editing referencing
+            currentDataState[type] = items;
+            
             displayItems(section, type, items);
         } catch (error) {
             console.error('Load error:', error);
@@ -548,28 +718,38 @@
         const list = document.getElementById(listId);
         
         if (items.length === 0) {
-            list.innerHTML = '<p style="color: #999;">No items yet</p>';
+            list.innerHTML = '<p style="color: #999;">No items found in database.</p>';
             return;
         }
         
-        list.innerHTML = items.map(item => `
+        list.innerHTML = items.map(item => {
+            // Determine image source or fallback icon
+            let imgHTML = '';
+            if (item.data.img) {
+                imgHTML = `<img src="${item.data.img}" class="item-thumb" alt="thumbnail">`;
+            } else if (item.data.icon) {
+                imgHTML = `<div class="item-thumb" style="display:flex; align-items:center; justify-content:center; background: var(--navy); color: var(--gold); font-size: 30px;"><i class="${item.data.icon}"></i></div>`;
+            } else {
+                imgHTML = `<div class="item-thumb" style="display:flex; align-items:center; justify-content:center; color: #ccc;"><i class="fas fa-image fa-2x"></i></div>`;
+            }
+
+            return `
             <div class="item-card">
-                <h3>${item.data.name || item.data.title || item.data.caption}</h3>
-                ${item.data.price ? `<p><strong>Price:</strong> ${item.data.price}</p>` : ''}
-                ${item.data.location ? `<p><strong>Location:</strong> ${item.data.location}</p>` : ''}
-                ${item.data.desc ? `<p>${item.data.desc.substring(0, 100)}...</p>` : ''}
-                <p><small>Created: ${new Date(item.createdAt).toLocaleDateString()}</small></p>
-                <div class="item-actions">
-                    <button class="btn-delete" onclick="deleteItem('${section}', '${item._id}')">Delete</button>
+                ${imgHTML}
+                <div class="item-details">
+                    <h3>${item.data.name || item.data.title || item.data.caption}</h3>
+                    ${item.data.price ? `<p><strong>Price:</strong> ${item.data.price}</p>` : ''}
+                    ${item.data.location ? `<p><strong>Location:</strong> ${item.data.location}</p>` : ''}
+                    ${item.data.desc ? `<p>${item.data.desc.substring(0, 80)}...</p>` : ''}
+                    <p><small style="color: #94a3b8;">Created: ${new Date(item.createdAt).toLocaleDateString()}</small></p>
+                    <div class="item-actions">
+                        <button class="btn-edit" onclick="triggerEdit('${section}', '${type}', '${item._id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn-delete" onclick="deleteItem('${type}', '${item._id}', '${section}')"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
                 </div>
             </div>
-        `).join('');
-    }
-
-    function clearForm(prefix) {
-        document.querySelectorAll(`[id^="${prefix}-"]`).forEach(el => {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = '';
-        });
+            `;
+        }).join('');
     }
 
     function loadAllData() {
@@ -582,10 +762,11 @@
         loadData('gallery');
     }
 
+    // INITIALIZATION
     if (authToken) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("main-interface").style.display = "flex";
-        startInactivityTimer(); // Start timer on auto-login
+        startInactivityTimer(); 
         loadAllData();
     }
   </script>
