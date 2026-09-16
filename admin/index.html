@@ -624,10 +624,10 @@
         processSave('gallery', 'gallery', data, 'g');
     }
     
-    async function saveTeam() {
+   async function saveTeam() {
         const fileInput = document.getElementById('t-file');
         let imageUrl = document.getElementById('t-img').value;
-      department: document.getElementById('t-dept').value
+        const departmentValue = document.getElementById('t-dept').value;
 
         // If a file was selected, upload it to Cloudinary first
         if (fileInput.files.length > 0) {
@@ -661,12 +661,12 @@
             img: imageUrl,
             title: document.getElementById('t-name').value, 
             role: document.getElementById('t-role').value,
-            desc: document.getElementById('t-desc').value
+            desc: document.getElementById('t-desc').value,
+            department: departmentValue // Pass the captured department here
         };
         
         processSave('team', 'team', data, 't');
     }
-
     // EDITING LOGIC
     function triggerEdit(panelId, itemType, id) {
         editingId = id;
