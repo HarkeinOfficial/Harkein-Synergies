@@ -125,6 +125,9 @@
       <div class="nav-item" onclick="switchTab('news')"><i class="fas fa-newspaper"></i> Post News</div>
       <div class="nav-item" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Update Gallery</div>
 
+      <div class="nav-category">Company Info</div>
+      <div class="nav-item" onclick="switchTab('team')"><i class="fas fa-users"></i> Manage Team</div>
+
       <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <div class="nav-item" onclick="logout()" style="color: var(--gold); border: 1px solid var(--gold); font-weight: bold; justify-content: center;">
           <i class="fas fa-sign-out-alt"></i> LOGOUT
@@ -288,89 +291,6 @@
         <div class="items-list" id="news-list"></div>
       </div>
 
-      <!-- Team Member Upload Section -->
-<div class="admin-card">
-  <h3>Add New Team Member</h3>
-  <form id="teamForm">
-    <div class="form-group">
-      <label>Full Name</label>
-      <input type="text" id="teamName" required placeholder="e.g. John Doe">
-    </div>
-    
-    <div class="form-group">
-      <label>Role / Position</label>
-      <input type="text" id="teamRole" required placeholder="e.g. Lead Engineer">
-    </div>
-
-    <div class="form-group">
-      <label>Description / Bio</label>
-      <textarea id="teamBio" rows="3" placeholder="Write a brief background..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Profile Image</label>
-      <input type="file" id="teamImage" accept="image/*" required>
-    </div>
-
-    <button type="submit" id="submitBtn">Upload Team Member</button>
-  </form>
-</div>
-
-<script>
-  document.getElementById('teamForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.textContent = 'Uploading...';
-
-    const name = document.getElementById('teamName').value;
-    const role = document.getElementById('teamRole').value;
-    const bio = document.getElementById('teamBio').value;
-    const imageFile = document.getElementById('teamImage').files[0];
-
-    try {
-      // Step 1: Upload image to Cloudinary
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      formData.append('upload_preset', 'Team Upload'); // Replace with your preset
-
-      const cloudRes = await fetch('https://api.cloudinary.com/v1_1/pvmrhdgf/image/upload', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const cloudData = await cloudRes.json();
-      if (!cloudRes.ok) throw new Error(cloudData.error?.message || 'Image upload failed');
-      const imageUrl = cloudData.secure_url;
-
-      // Step 2: Send data and image URL to your Render backend
-      const token = localStorage.getItem('token'); // Assumes you store your admin token here on login
-      const backendUrl = 'https://harkein-backend.onrender.com'; // Replace with your Render URL if not using relative paths
-
-      const response = await fetch(`${backendUrl}/api/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          type: 'team',
-          data: { name, role, bio, imageUrl }
-        })
-      });
-
-      if (!response.ok) throw new Error('Failed to save to database');
-
-      alert('Team member added successfully!');
-      document.getElementById('teamForm').reset();
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
-      submitBtn.textContent = 'Upload Team Member';
-    }
-  });
-</script>
-
       <!-- GALLERY PANEL -->
       <div id="gallery" class="panel">
         <h2>Gallery</h2>
@@ -391,6 +311,37 @@
 
         <h3 style="margin-top: 40px; color: var(--navy);">Gallery Items</h3>
         <div class="items-list" id="gallery-list"></div>
+      </div>
+
+      <!-- TEAM PANEL -->
+      <div id="team" class="panel">
+        <h2>Our Team</h2>
+        <p class="desc">Add or edit executive and team members</p>
+        
+        <div class="form-group">
+          <label>Profile Image (Upload File)</label>
+          <input type="file" id="t-file" accept="image/*" style="margin-bottom: 5px;">
+          <p style="font-size:12px; color:#94a3b8; margin-top:0; margin-bottom:20px;">(Select a file to upload to Cloudinary, or paste an existing URL below)</p>
+          
+          <label>Image Link (URL)</label>
+          <input type="text" id="t-img" placeholder="https://..." oninput="updatePreview(this, 't-preview')">
+          <div class="img-preview-container" id="t-preview-container">
+              <img src="" id="t-preview" class="img-preview" alt="Preview">
+          </div>
+
+          <label>Full Name</label>
+          <input type="text" id="t-name" placeholder="e.g. Folaranmi Hussein Kehinde">
+          <label>Role / Position</label>
+          <input type="text" id="t-role" placeholder="e.g. Chief Executive Officer">
+          <label>Description / Bio</label>
+          <textarea id="t-desc" rows="3" placeholder="Brief background..."></textarea>
+          
+          <button class="btn-generate" id="btn-team" onclick="saveTeam()">Save to Database</button>
+          <button class="btn-generate" id="cancel-team" onclick="cancelEdit('team')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
+        </div>
+
+        <h3 style="margin-top: 40px; color: var(--navy);">Current Team Members</h3>
+        <div class="items-list" id="team-list"></div>
       </div>
 
     </div>
@@ -657,6 +608,48 @@
         };
         processSave('gallery', 'gallery', data, 'g');
     }
+    
+    async function saveTeam() {
+        const fileInput = document.getElementById('t-file');
+        let imageUrl = document.getElementById('t-img').value;
+
+        // If a file was selected, upload it to Cloudinary first
+        if (fileInput.files.length > 0) {
+            setButtonLoading('btn-team', true);
+            try {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                formData.append('upload_preset', 'Team Upload');
+                
+                // Uses the Cloudinary credentials from your previous code
+                const cloudRes = await fetch('https://api.cloudinary.com/v1_1/pvmrhdgf/image/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const cloudData = await cloudRes.json();
+                if (!cloudRes.ok) throw new Error(cloudData.error?.message || 'Image upload failed');
+                
+                imageUrl = cloudData.secure_url;
+                document.getElementById('t-img').value = imageUrl; 
+                updatePreview(document.getElementById('t-img'), 't-preview');
+            } catch (err) {
+                showToast('error', err.message);
+                setButtonLoading('btn-team', false);
+                return; // Stop execution if image upload fails
+            }
+        }
+
+        // Format data to match your existing displayItems() expectations
+        const data = {
+            img: imageUrl,
+            title: document.getElementById('t-name').value, 
+            role: document.getElementById('t-role').value,
+            desc: document.getElementById('t-desc').value
+        };
+        
+        processSave('team', 'team', data, 't');
+    }
 
     // EDITING LOGIC
     function triggerEdit(panelId, itemType, id) {
@@ -721,6 +714,14 @@
             document.getElementById('g-cap').value = item.data.caption || '';
             updatePreview(document.getElementById('g-img'), 'g-preview');
         }
+        else if(panelId === 'team') {
+            document.getElementById('t-img').value = item.data.img || '';
+            document.getElementById('t-name').value = item.data.title || ''; 
+            document.getElementById('t-role').value = item.data.role || '';
+            document.getElementById('t-desc').value = item.data.desc || '';
+            document.getElementById('t-file').value = ''; 
+            updatePreview(document.getElementById('t-img'), 't-preview');
+        }
     }
 
     function cancelEdit(panelId) {
@@ -777,7 +778,8 @@
             'solutions': 'solutions',
             'logistics': 'logistics',
             'news': 'news',
-            'gallery': 'gallery'
+            'gallery': 'gallery',
+            'team': 'team'
         };
         
         const type = typeMap[section];
@@ -821,6 +823,7 @@
                 ${imgHTML}
                 <div class="item-details">
                     <h3>${item.data.name || item.data.title || item.data.caption}</h3>
+                    ${item.data.role ? `<p style="color:var(--gold); font-weight:bold; margin-bottom:5px;">${item.data.role}</p>` : ''}
                     ${item.data.price ? `<p><strong>Price:</strong> ${item.data.price}</p>` : ''}
                     ${item.data.location ? `<p><strong>Location:</strong> ${item.data.location}</p>` : ''}
                     ${item.data.desc ? `<p>${item.data.desc.substring(0, 80)}...</p>` : ''}
@@ -843,6 +846,7 @@
         loadData('logistics');
         loadData('news');
         loadData('gallery');
+        loadData('team');
     }
 
     // INITIALIZATION
