@@ -1,1 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HARKEIN TEAM — Executive Leadership</title>
+  <link rel="icon" href="https://i.ibb.co/RpKv1djv/file-0000000043cc620a9e2842b1759c4eac-conversation-id-681fc7fd-2814-800f-981e-7caabb6ca2dd-message-i.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* SHARED CORPORATE THEME */
+    :root{ --navy: #0f172a; --gold: #d4af37; --gold-light: #f3e5ab; --grey: #f8fafc; --text: #334155; --white: #ffffff; }
+    *{box-sizing:border-box}
+    body{font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; margin:0; background:var(--grey); color:var(--text); line-height: 1.6;}
+    
+    /* HEADER */
+    header{background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px); color:white; position:sticky; top:0; z-index:1000; border-bottom: 3px solid var(--gold);}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px;}
+    .topbar{display:flex; align-items:center; justify-content:space-between; padding:15px 0;}
+    
+    /* LOGO STYLES */
+    .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); margin-top: 5px; }
 
+    /* HAMBURGER & MENU (Standardized) */
+    .hamburger { display: block; font-size: 28px; color: var(--gold); cursor: pointer; padding: 5px; border: 1px solid transparent; transition: 0.3s; }
+    .hamburger:hover { border-color: var(--gold); border-radius: 4px; }
+    
+    .nav-menu { position: absolute; top: 100%; left: 0; width: 100%; background: var(--navy); flex-direction: column; align-items: center; padding: 30px 0; gap: 25px; display: none; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    .nav-menu.active { display: flex; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .nav-menu a { color: white; text-decoration: none; font-weight: 500; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 100%; text-align: center; padding: 10px 0; }
+    .nav-menu a:hover { color: var(--gold); background: rgba(255,255,255,0.05); }
+    .nav-btn { border: 1px solid var(--gold); padding: 12px 30px !important; border-radius: 4px; color: var(--gold) !important; display: inline-block; width: auto !important; margin-top: 10px; }
+    .nav-btn:hover { background: var(--gold); color: var(--navy) !important; }
+
+    /* HERO */
+    .page-hero { 
+        height: 40vh; 
+        background-color: var(--navy);
+        background-image: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0.95) 100%);
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        position: relative; 
+        border-bottom: 2px solid var(--gold);
+    }
+    
+    .hero-text { position: relative; z-index: 2; text-align: center; color: white; padding: 0 20px;}
+    .hero-text h1 { font-size: 42px; margin: 0; font-weight: 800; letter-spacing: 2px; }
+    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+
+    /* TEAM GRID & CARDS */
+    .team-section { padding: 80px 0; min-height: 50vh; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+    
+    .team-card { 
+      background: white; 
+      border-bottom: 4px solid var(--gold); 
+      transition: 0.3s; 
+      border-radius: 8px; 
+      overflow: hidden; 
+      position: relative; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .team-card:hover { 
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15); 
+      transform: translateY(-5px); 
+    }
+    
+    .team-img-wrap { 
+      position: relative; 
+      height: 350px; 
+      overflow: hidden;
+      background: #e2e8f0;
+    }
+    .team-img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.5s ease;
+    }
+    .team-card:hover .team-img {
+      transform: scale(1.05);
+    }
+    
+    .team-details { 
+        padding: 25px; 
+        text-align: center;
+    }
+    .team-name { 
+        color: var(--navy); 
+        font-size: 22px; 
+        margin: 0 0 5px 0; 
+        font-weight: 700; 
+    }
+    .team-role { 
+        color: var(--gold); 
+        font-weight: 700; 
+        font-size: 14px; 
+        margin-bottom: 15px; 
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .team-desc { 
+        color: #64748b; 
+        font-size: 15px; 
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    /* LOADING & ERROR STATES */
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--text);
+      font-size: 18px;
+    }
+    .no-items {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--text);
+    }
+    .no-items h3 {
+      color: var(--navy);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    /* FOOTER */
+    footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px; margin-top: auto;}
+    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+    .footer-col h4 { color: white; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; padding: 0; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
+    .footer-col a:hover { color: var(--gold); }
+    
+    .footer-social {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .footer-social a {
+      color: var(--gold);
+      font-size: 24px;
+      transition: 0.3s;
+    }
+    .footer-social a:hover {
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    @media(max-width:768px){ 
+      .hero-text h1 { font-size: 32px; }
+      .team-img-wrap { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STANDARDIZED HEADER -->
+  <header>
+    <div class="container topbar">
+      <a href="index.html" class="logo-img">
+        <img src="/9227.jpg" alt="HARKEIN SYNERGIES">
+      </a>
+
+      <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/team" style="color:var(--gold);">Our Team</a>
+        <a href="/properties">Real Estate</a>
+        <a href="/commodities">Energy & Agric</a>
+        <a href="/solutions">Tech Solutions</a> 
+        <a href="/fashion">Fashion</a>
+        <a href="/procurement">Logistics</a>
+        <a href="/team" class="nav-btn">Team</a>
+        <a href="/news">News</a> 
+        <a href="/gallery">Gallery</a> 
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-hero">
+        <div class="hero-text">
+            <h1>EXECUTIVE LEADERSHIP</h1>
+            <p>The Visionaries Driving Harkein Synergies</p>
+        </div>
+    </div>
+
+    <section class="container team-section">
+        <div class="grid" id="team-grid">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin" style="color: var(--gold); font-size: 24px; margin-bottom: 10px;"></i>
+                <p>Loading executive profiles...</p>
+            </div>
+        </div>
+    </section>
+  </main>
+
+  <!-- STANDARDIZED FOOTER -->
+  <footer>
+    <div class="container footer-content">
+        <div class="footer-col">
+            <h4>Harkein Synergies</h4>
+            <p>A multi-sector conglomerate dedicated to excellence in Logistics, Real Estate, Tech Solutions and Fashion.</p>
+            <div class="footer-social">
+              <a href="https://instagram.com/harkein_synergies" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="mailto:harkeinsynergies@gmail.com" title="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://wa.me/2349026824546" target="_blank" title="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Corporate</h4>
+            <ul>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/team">Our Team</a></li>
+                <li><a href="index.html#trading">General Trading</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Divisions</h4>
+            <ul>
+                <li><a href="/properties">Properties</a></li>
+                <li><a href="/fashion">Fashion</a></li>
+                <li><a href="index.html#contact">Logistics</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Connect</h4>
+            <p>Email: <a href="mailto:harkeinsynergies@gmail.com">harkeinsynergies@gmail.com</a></p>
+            <p>Phone: <a href="tel:+2349026824546">+234 902 682 4546</a></p>
+            <p style="margin-top: 15px;">&copy; 2026 Harkein Synergies.</p>
+            <p style="font-size: 12px; margin-top: 10px;">
+                <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+            </p>
+        </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation Toggle Logic
+    function toggleMenu() { 
+      document.getElementById("navMenu").classList.toggle("active"); 
+    }
+
+    // Backend API Logic
+    const API_URL = 'https://harkein-backend.onrender.com';
+
+    async function loadTeam() {
+      try {
+        const response = await fetch(`${API_URL}/api/items/team`);
+        const items = await response.json();
+        
+        const grid = document.getElementById('team-grid');
+        
+        if (items.length === 0) {
+          grid.innerHTML = `
+            <div class="no-items" style="grid-column: 1 / -1;">
+              <h3>Executive Profiles</h3>
+              <p>Our team directory is currently being updated. Please check back later.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        grid.innerHTML = items.map(item => `
+          <div class="team-card">
+            <div class="team-img-wrap">
+              <img src="${item.data.img || 'https://via.placeholder.com/400x500?text=Profile+Image'}" 
+                   alt="${item.data.title || 'Team Member'}" 
+                   class="team-img" 
+                   onerror="this.src='https://via.placeholder.com/400x500?text=Profile+Image'">
+            </div>
+            <div class="team-details">
+              <h3 class="team-name">${item.data.title || 'Executive Name'}</h3>
+              <div class="team-role">${item.data.role || ''}</div>
+              <p class="team-desc">${item.data.desc || ''}</p>
+            </div>
+          </div>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Error loading team profiles:', error);
+        document.getElementById('team-grid').innerHTML = `
+          <div class="no-items" style="grid-column: 1 / -1;">
+            <h3>Unable to Load Directory</h3>
+            <p>Please refresh the page or try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Load team when page loads
+    document.addEventListener('DOMContentLoaded', loadTeam);
+  </script>
+
+</body>
+</html>
