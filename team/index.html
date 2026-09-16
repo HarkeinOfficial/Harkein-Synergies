@@ -55,10 +55,10 @@
         justify-content: center; 
         position: relative; 
         border-bottom: 2px solid var(--gold);
-   overflow: hidden; /* Add this line to keep the logo inside the box */
+        overflow: hidden; /* Keeps the logo inside the box */
     }
     
-    /* ADD THIS NEW BLOCK FOR THE FADED LOGO */
+    /* FADED BACKGROUND LOGO */
     .page-hero::before {
         content: '';
         position: absolute;
@@ -66,18 +66,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url('/9227.jpg'); /* Uses your existing logo */
-        background-size: contain; /* Keeps the entire logo visible */
+        background-image: url('/9227.jpg'); 
+        background-size: cover; /* Forces the image to stretch full width and height */
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.05; /* This controls the fade! 0.05 is very subtle, 0.1 is slightly more visible */
-        z-index: 1; /* Places it behind the text */
-        pointer-events: none; /* Ensures it doesn't block clicks */
+        opacity: 0.05; /* Subtle fade effect */
+        z-index: 1; 
+        pointer-events: none; 
     }
-    
-    .hero-text { position: relative; z-index: 2; text-align: center; color: white; padding: 0 20px;}
-    .hero-text h1 { font-size: 42px; margin: 0; font-weight: 800; letter-spacing: 2px; }
-    .hero-text p { font-size: 18px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
     
     .hero-text { position: relative; z-index: 2; text-align: center; color: white; padding: 0 20px;}
     .hero-text h1 { font-size: 42px; margin: 0; font-weight: 800; letter-spacing: 2px; }
@@ -113,6 +109,28 @@
     .dept-accordion summary::after { content: '\f078'; font-family: 'Font Awesome 5 Free'; font-weight: 900; transition: 0.3s; color: var(--gold); }
     .dept-accordion[open] summary::after { transform: rotate(180deg); }
     .dept-accordion[open] summary { border-bottom: 3px solid var(--gold); }
+    
+    /* DEPARTMENT HEADER (Description & Email) */
+    .dept-header {
+      background: var(--white);
+      padding: 20px 30px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .dept-desc {
+      color: var(--text);
+      font-size: 16px;
+      margin: 0 0 10px 0;
+    }
+    .dept-email {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dept-email:hover { text-decoration: underline; }
     
     .dept-content {
       padding: 30px;
@@ -305,7 +323,7 @@
           groupedData[dept].push(item);
         });
 
-        // Define the exact order you want the departments to appear
+        // 1. Define the exact order you want the departments to appear
         const order = [
           "Executive Leadership", 
           "Product & Design", 
@@ -317,10 +335,25 @@
           "DevOps & Infrastructure"
         ];
 
+        // 2. Define the descriptions and emails for each department
+        const deptInfo = {
+          "Executive Leadership": { desc: "Guiding the strategic vision, governance, and overall operations of Harkein Synergies.", email: "harkeininfo@gmail.com" },
+          "Product & Design": { desc: "Crafting intuitive, user-centric, and innovative product experiences.", email: "harkeininfo@gmail.com" },
+          "Engineering & Architecture": { desc: "Designing and building robust, scalable, and secure technical infrastructure.", email: "harkeininfo@gmail.com" },
+          "Risk, Fraud & Cybersecurity": { desc: "Protecting digital assets, ensuring data integrity, and mitigating corporate risk.", email: "harkeininfo@gmail.com" },
+          "Legal, Compliance & Regulatory": { desc: "Navigating legal frameworks and ensuring strict corporate compliance.", email: "harkeininfo@gmail.com" },
+          "Financial Operations & Treasury": { desc: "Managing financial health, liquidity, capital allocation, and economic strategy.", email: "harkeininfo@gmail.com" },
+          "Commercial Partnerships": { desc: "Fostering strategic alliances, business development, and driving merchant growth.", email: "harkeininfo@gmail.com" },
+          "DevOps & Infrastructure": { desc: "Ensuring high availability, continuous deployment, and enterprise system reliability.", email: "harkeininfo@gmail.com" }
+        };
+
         // Build the HTML for each department
         order.forEach(deptName => {
           const members = groupedData[deptName];
           if (!members || members.length === 0) return; // Skip empty departments
+
+          // Get the specific info for this department
+          const info = deptInfo[deptName];
 
           const memberCards = members.map(member => `
             <div class="team-card">
@@ -338,10 +371,14 @@
             </div>
           `).join('');
 
-          // Uses the native <details> tag for the accordion dropdown
+          // Uses the native <details> tag for the accordion dropdown, with the header inside
           const accordionHTML = `
             <details class="dept-accordion" ${deptName === 'Executive Leadership' ? 'open' : ''}>
               <summary>${deptName} <span style="font-size: 14px; opacity: 0.8; font-weight: normal;">(${members.length} Members)</span></summary>
+              <div class="dept-header">
+                <p class="dept-desc">${info.desc}</p>
+                <a href="mailto:${info.email}" class="dept-email"><i class="fas fa-envelope"></i> Contact: ${info.email}</a>
+              </div>
               <div class="dept-content">
                 ${memberCards}
               </div>
