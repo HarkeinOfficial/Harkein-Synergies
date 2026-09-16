@@ -106,7 +106,10 @@
   <div id="main-interface">
     
     <div class="sidebar">
-      <div class="brand">HARKEIN <span>ADMIN</span></div>
+      <div class="brand" style="display: flex; align-items: center; gap: 12px;">
+  <img src="/9227.jpg" alt="Logo" style="width: 35px; height: 35px; border-radius: 6px; border: 1px solid var(--gold); object-fit: cover;">
+  <div style="line-height: 1.2;">HARKEIN <span style="display: block; font-size: 14px;">ADMIN</span></div>
+</div>
       
       <div class="session-timer" id="session-timer">
         <i class="fas fa-clock"></i> Session: <span id="timer-display">30:00</span>
@@ -328,6 +331,18 @@
           <div class="img-preview-container" id="t-preview-container">
               <img src="" id="t-preview" class="img-preview" alt="Preview">
           </div>
+
+          <label>Department</label>
+          <select id="t-dept" style="margin-bottom: 20px;">
+            <option value="Executive Leadership">Executive Leadership</option>
+            <option value="Product & Design">Product & Design</option>
+            <option value="Engineering & Architecture">Engineering & Architecture</option>
+            <option value="Risk, Fraud & Cybersecurity">Risk, Fraud & Cybersecurity</option>
+            <option value="Legal, Compliance & Regulatory">Legal, Compliance & Regulatory</option>
+            <option value="Financial Operations & Treasury">Financial Operations & Treasury</option>
+            <option value="Commercial Partnerships">Commercial Partnerships & Merchant Strategy</option>
+            <option value="DevOps & Infrastructure">DevOps & Infrastructure Operation</option>
+          </select>
 
           <label>Full Name</label>
           <input type="text" id="t-name" placeholder="e.g. Folaranmi Hussein Kehinde">
@@ -612,6 +627,7 @@
     async function saveTeam() {
         const fileInput = document.getElementById('t-file');
         let imageUrl = document.getElementById('t-img').value;
+      department: document.getElementById('t-dept').value
 
         // If a file was selected, upload it to Cloudinary first
         if (fileInput.files.length > 0) {
@@ -721,6 +737,7 @@
             document.getElementById('t-desc').value = item.data.desc || '';
             document.getElementById('t-file').value = ''; 
             updatePreview(document.getElementById('t-img'), 't-preview');
+          document.getElementById('t-dept').value = item.data.department || 'Executive Leadership';
         }
     }
 
