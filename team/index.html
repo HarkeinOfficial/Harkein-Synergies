@@ -12,12 +12,12 @@
     *{box-sizing:border-box}
     body{font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; margin:0; background:var(--grey); color:var(--text); line-height: 1.6;}
     
-    /* HEADER & NAV BAR (Updated to push to edges) */
+    /* HEADER & NAV BAR */
     header{background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px); color:white; position:sticky; top:0; z-index:1000; border-bottom: 3px solid var(--gold);}
     
     header .container.topbar {
-        max-width: 100%; /* Forces container to full width */
-        padding: 15px 5%; /* Pushes logo and hamburger to the edges */
+        max-width: 100%; 
+        padding: 15px 5%; 
         display:flex; 
         align-items:center; 
         justify-content:space-between;
@@ -25,11 +25,10 @@
 
     @media(max-width:768px) {
         header .container.topbar {
-            padding: 15px 20px; /* Tighter edges for mobile */
+            padding: 15px 20px;
         }
     }
     
-    /* LOGO STYLES */
     .logo-img img { height: 70px; width: auto; border-radius: 4px; border: 2px solid var(--gold); margin-top: 5px; }
 
     /* HAMBURGER & MENU */
@@ -55,10 +54,9 @@
         justify-content: center; 
         position: relative; 
         border-bottom: 2px solid var(--gold);
-        overflow: hidden; /* Keeps the logo inside the box */
+        overflow: hidden; 
     }
     
-    /* FADED BACKGROUND LOGO */
     .page-hero::before {
         content: '';
         position: absolute;
@@ -67,10 +65,10 @@
         width: 100%;
         height: 100%;
         background-image: url('/9227.jpg'); 
-        background-size: cover; /* Forces the image to stretch full width and height */
+        background-size: cover; 
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.05; /* Subtle fade effect */
+        opacity: 0.05; 
         z-index: 1; 
         pointer-events: none; 
     }
@@ -100,17 +98,33 @@
       cursor: pointer;
       list-style: none;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       transition: background 0.3s;
     }
     
+    /* STYLING FOR THE SUMMARY CONTENTS */
+    .dept-title {
+        flex-grow: 1; /* Pushes the badge and arrow to the right */
+    }
+    
+    .member-badge {
+        background: rgba(212, 175, 55, 0.15); /* Soft gold background */
+        color: var(--gold);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-right: 15px; /* Spaces it from the drop-down arrow */
+    }
+
     .dept-accordion summary:hover { background: #1e293b; }
     .dept-accordion summary::after { content: '\f078'; font-family: 'Font Awesome 5 Free'; font-weight: 900; transition: 0.3s; color: var(--gold); }
     .dept-accordion[open] summary::after { transform: rotate(180deg); }
     .dept-accordion[open] summary { border-bottom: 3px solid var(--gold); }
     
-    /* DEPARTMENT HEADER (Description & Email) */
+    /* DEPARTMENT HEADER */
     .dept-header {
       background: var(--white);
       padding: 20px 30px;
@@ -175,7 +189,15 @@
     .team-details { padding: 25px; text-align: center; }
     .team-name { color: var(--navy); font-size: 22px; margin: 0 0 5px 0; font-weight: 700; }
     .team-role { color: var(--gold); font-weight: 700; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-    .team-desc { color: #64748b; font-size: 15px; line-height: 1.6; margin-bottom: 0; }
+    
+    /* THE FIX FOR THE SQUISHED TEXT */
+    .team-desc { 
+        color: #64748b; 
+        font-size: 15px; 
+        line-height: 1.6; 
+        margin-bottom: 0; 
+        white-space: pre-line; /* This line forces the browser to respect your 'Enter' keys */
+    }
 
     /* LOADING & ERROR STATES */
     .loading { text-align: center; padding: 100px 20px; color: var(--text); font-size: 18px; }
@@ -203,7 +225,6 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="container topbar">
       <a href="index.html" class="logo-img">
@@ -238,7 +259,6 @@
         </div>
     </div>
 
-    <!-- DEPARTMENTS SECTION -->
     <section class="departments-section">
         <div id="departments-container">
             <div class="loading">
@@ -249,7 +269,6 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-content">
         <div class="footer-col">
@@ -296,7 +315,6 @@
     </div>
   </footer>
 
-  <!-- SCRIPT BLOCK -->
   <script>
     function toggleMenu() { 
       document.getElementById("navMenu").classList.toggle("active"); 
@@ -315,7 +333,6 @@
           return;
         }
 
-        // Group members by their department
         const groupedData = {};
         items.forEach(item => {
           const dept = item.data.department || 'Group Executive Leadership';
@@ -323,7 +340,6 @@
           groupedData[dept].push(item);
         });
 
-        // 1. Define the exact order you want the corporate departments to appear
         const order = [
           "Group Executive Leadership", 
           "Corporate Strategy & Business Development", 
@@ -336,7 +352,6 @@
           "Real Estate & Project Operations"
         ];
 
-        // 2. Define the descriptions and emails for each corporate department
         const deptInfo = {
           "Group Executive Leadership": { desc: "Guiding the strategic vision, capital allocation, and overall operations across all Harkein Synergies subsidiaries and divisions.", email: "harkeininfo@gmail.com" },
           "Corporate Strategy & Business Development": { desc: "Identifying new market opportunities, managing acquisitions, and forging high-level commercial partnerships.", email: "harkeininfo@gmail.com" },
@@ -349,12 +364,10 @@
           "Real Estate & Project Operations": { desc: "Overseeing architectural planning, property management, site operations, and facility development for Harkein Properties.", email: "harkeininfo@gmail.com" }
         };
 
-        // Build the HTML for each department
         order.forEach(deptName => {
           const members = groupedData[deptName];
-          if (!members || members.length === 0) return; // Skip empty departments
+          if (!members || members.length === 0) return; 
 
-          // Get the specific info for this department
           const info = deptInfo[deptName];
 
           const memberCards = members.map(member => `
@@ -373,10 +386,15 @@
             </div>
           `).join('');
 
-          // Uses the native <details> tag for the accordion dropdown, with the header inside
+          // Proper Grammar Logic for the Member Badge
+          const memberWord = members.length === 1 ? 'Member' : 'Members';
+
           const accordionHTML = `
             <details class="dept-accordion" ${deptName === 'Group Executive Leadership' ? 'open' : ''}>
-              <summary>${deptName} <span style="font-size: 14px; opacity: 0.8; font-weight: normal;">(${members.length} Members)</span></summary>
+              <summary>
+                <span class="dept-title">${deptName}</span>
+                <span class="member-badge">${members.length} ${memberWord}</span>
+              </summary>
               <div class="dept-header">
                 <p class="dept-desc">${info.desc}</p>
                 <a href="mailto:${info.email}" class="dept-email"><i class="fas fa-envelope"></i> Contact: ${info.email}</a>
