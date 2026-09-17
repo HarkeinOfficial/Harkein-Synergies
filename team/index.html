@@ -102,13 +102,12 @@
       transition: background 0.3s;
     }
     
-    /* STYLING FOR THE SUMMARY CONTENTS */
     .dept-title {
-        flex-grow: 1; /* Pushes the badge and arrow to the right */
+        flex-grow: 1; 
     }
     
     .member-badge {
-        background: rgba(212, 175, 55, 0.15); /* Soft gold background */
+        background: rgba(212, 175, 55, 0.15); 
         color: var(--gold);
         padding: 4px 12px;
         border-radius: 20px;
@@ -116,7 +115,7 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-right: 15px; /* Spaces it from the drop-down arrow */
+        margin-right: 15px; 
     }
 
     .dept-accordion summary:hover { background: #1e293b; }
@@ -152,6 +151,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 30px;
+      align-items: start;
     }
 
     /* TEAM CARDS */
@@ -189,14 +189,32 @@
     .team-details { padding: 25px; text-align: center; }
     .team-name { color: var(--navy); font-size: 22px; margin: 0 0 5px 0; font-weight: 700; }
     .team-role { color: var(--gold); font-weight: 700; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-    
-    /* THE FIX FOR THE SQUISHED TEXT */
     .team-desc { 
         color: #64748b; 
         font-size: 15px; 
         line-height: 1.6; 
         margin-bottom: 0; 
-        white-space: pre-line; /* This line forces the browser to respect your 'Enter' keys */
+        white-space: pre-line;
+    }
+
+    /* CEO SPOTLIGHT STYLING */
+    .ceo-card-wrapper {
+        grid-column: 1 / -1; /* Forces the wrapper to span the full width of the row */
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .ceo-card {
+        width: 100%;
+        max-width: 480px; /* Makes the CEO card noticeably larger and wider */
+        border-bottom: 6px solid var(--gold);
+        transform: scale(1.02);
+    }
+    .ceo-card .team-img-wrap {
+        height: 450px; /* Taller image for the CEO */
+    }
+    .ceo-card .team-name {
+        font-size: 26px; /* Slightly larger name text */
     }
 
     /* LOADING & ERROR STATES */
@@ -219,7 +237,7 @@
 
     @media(max-width:768px){ 
       .hero-text h1 { font-size: 32px; }
-      .team-img-wrap { height: 300px; }
+      .team-img-wrap, .ceo-card .team-img-wrap { height: 350px; }
     }
   </style>
 </head>
@@ -369,8 +387,40 @@
           if (!members || members.length === 0) return; 
 
           const info = deptInfo[deptName];
+          const totalMembers = members.length; // Capture length before modifications
+          let memberCardsHTML = "";
 
-          const memberCards = members.map(member => `
+          // CEO SPOTLIGHT LOGIC
+          if (deptName === "Group Executive Leadership") {
+            // Find the CEO based on the role title
+            const ceoIndex = members.findIndex(m => m.data.role && m.data.role.toUpperCase().includes("CHIEF EXECUTIVE"));
+            
+            if (ceoIndex !== -1) {
+              const ceo = members.splice(ceoIndex, 1)[0]; // Pull the CEO out of the array
+              
+              // Build the special, centered CEO Card
+              memberCardsHTML += `
+                <div class="ceo-card-wrapper">
+                  <div class="team-card ceo-card">
+                    <div class="team-img-wrap">
+                      <img src="${ceo.data.img || 'https://via.placeholder.com/400x500?text=Profile+Image'}" 
+                           alt="${ceo.data.title || 'Team Member'}" 
+                           class="team-img"
+                           onerror="this.src='https://via.placeholder.com/400x500?text=Profile+Image'">
+                    </div>
+                    <div class="team-details">
+                      <h3 class="team-name">${ceo.data.title || 'Team Member'}</h3>
+                      <div class="team-role">${ceo.data.role || ''}</div>
+                      <p class="team-desc">${ceo.data.desc || ''}</p>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
+          }
+
+          // Build the rest of the members normally (they will flow side-by-side underneath)
+          memberCardsHTML += members.map(member => `
             <div class="team-card">
               <div class="team-img-wrap">
                 <img src="${member.data.img || 'https://via.placeholder.com/400x500?text=Profile+Image'}" 
@@ -386,21 +436,21 @@
             </div>
           `).join('');
 
-          // Proper Grammar Logic for the Member Badge
-          const memberWord = members.length === 1 ? 'Member' : 'Members';
+          // Grammar fix for the badge
+          const memberWord = totalMembers === 1 ? 'Member' : 'Members';
 
           const accordionHTML = `
             <details class="dept-accordion" ${deptName === 'Group Executive Leadership' ? 'open' : ''}>
               <summary>
                 <span class="dept-title">${deptName}</span>
-                <span class="member-badge">${members.length} ${memberWord}</span>
+                <span class="member-badge">${totalMembers} ${memberWord}</span>
               </summary>
               <div class="dept-header">
                 <p class="dept-desc">${info.desc}</p>
                 <a href="mailto:${info.email}" class="dept-email"><i class="fas fa-envelope"></i> Contact: ${info.email}</a>
               </div>
               <div class="dept-content">
-                ${memberCards}
+                ${memberCardsHTML}
               </div>
             </details>
           `;
