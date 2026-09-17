@@ -334,14 +334,15 @@
 
           <label>Department</label>
           <select id="t-dept" style="margin-bottom: 20px;">
-            <option value="Executive Leadership">Executive Leadership</option>
-            <option value="Product & Design">Product & Design</option>
-            <option value="Engineering & Architecture">Engineering & Architecture</option>
-            <option value="Risk, Fraud & Cybersecurity">Risk, Fraud & Cybersecurity</option>
-            <option value="Legal, Compliance & Regulatory">Legal, Compliance & Regulatory</option>
-            <option value="Financial Operations & Treasury">Financial Operations & Treasury</option>
-            <option value="Commercial Partnerships">Commercial Partnerships & Merchant Strategy</option>
-            <option value="DevOps & Infrastructure">DevOps & Infrastructure Operation</option>
+            <option value="Group Executive Leadership">Group Executive Leadership</option>
+            <option value="Corporate Strategy & Business Development">Corporate Strategy & Business Development</option>
+            <option value="Finance, Treasury & Investments">Finance, Treasury & Investments</option>
+            <option value="Legal, Governance & Risk Management">Legal, Governance & Risk Management</option>
+            <option value="Human Resources & Corporate Affairs">Human Resources & Corporate Affairs</option>
+            <option value="Marketing & Corporate Communications">Marketing & Corporate Communications</option>
+            <option value="Technology & Digital Innovation">Technology & Digital Innovation</option>
+            <option value="Procurement, Supply Chain & Logistics">Procurement, Supply Chain & Logistics</option>
+            <option value="Real Estate & Project Operations">Real Estate & Project Operations</option>
           </select>
 
           <label>Full Name</label>
@@ -667,6 +668,7 @@
         
         processSave('team', 'team', data, 't');
     }
+    
     // EDITING LOGIC
     function triggerEdit(panelId, itemType, id) {
         editingId = id;
@@ -737,7 +739,7 @@
             document.getElementById('t-desc').value = item.data.desc || '';
             document.getElementById('t-file').value = ''; 
             updatePreview(document.getElementById('t-img'), 't-preview');
-          document.getElementById('t-dept').value = item.data.department || 'Executive Leadership';
+            document.getElementById('t-dept').value = item.data.department || 'Group Executive Leadership';
         }
     }
 
@@ -841,6 +843,7 @@
                 <div class="item-details">
                     <h3>${item.data.name || item.data.title || item.data.caption}</h3>
                     ${item.data.role ? `<p style="color:var(--gold); font-weight:bold; margin-bottom:5px;">${item.data.role}</p>` : ''}
+                    ${item.data.department ? `<p style="color:var(--navy); font-size: 12px; font-weight:600; text-transform:uppercase; margin-bottom:5px;">${item.data.department}</p>` : ''}
                     ${item.data.price ? `<p><strong>Price:</strong> ${item.data.price}</p>` : ''}
                     ${item.data.location ? `<p><strong>Location:</strong> ${item.data.location}</p>` : ''}
                     ${item.data.desc ? `<p>${item.data.desc.substring(0, 80)}...</p>` : ''}
