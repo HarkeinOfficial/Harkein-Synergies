@@ -46,6 +46,10 @@
     .form-group { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 800px; margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 14px; }
     input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
+    textarea { white-space: pre-wrap; } /* Helps display line breaks in the admin area */
+    
+    .file-upload-help { font-size: 12px; color: #94a3b8; margin-top: -15px; margin-bottom: 15px; display: block; }
+    
     .btn-generate { background: var(--navy); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; transition: 0.3s; }
     .btn-generate:hover { background: var(--gold); color: var(--navy); }
     .btn-generate:disabled { background: #94a3b8; cursor: not-allowed; }
@@ -146,6 +150,10 @@
         <p class="desc">Add or edit fashion items in your store</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="f-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+          
           <label>Image Link (URL)</label>
           <input type="text" id="f-img" placeholder="https://..." oninput="updatePreview(this, 'f-preview')">
           <div class="img-preview-container" id="f-preview-container">
@@ -162,7 +170,7 @@
           <input type="text" id="f-name" placeholder="e.g. Navy Blue Bespoke Suit">
           <label>Price (₦)</label>
           <input type="text" id="f-price" placeholder="e.g. 150,000">
-          <button class="btn-generate" id="btn-fashion" onclick="saveFashion()">Save to Database</button>
+          <button class="btn-generate" id="btn-fashion" onclick="saveWithUpload('fashion')">Save to Database</button>
           <button class="btn-generate" id="cancel-fashion" onclick="cancelEdit('fashion')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -176,6 +184,10 @@
         <p class="desc">Add or edit properties in your portfolio</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="p-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+
           <label>Image Link</label>
           <input type="text" id="p-img" placeholder="https://..." oninput="updatePreview(this, 'p-preview')">
           <div class="img-preview-container" id="p-preview-container">
@@ -190,7 +202,7 @@
           <input type="text" id="p-title" placeholder="4 Bedroom Duplex">
           <label>Price</label>
           <input type="text" id="p-price" placeholder="₦120,000,000">
-          <button class="btn-generate" id="btn-realestate" onclick="saveProperty()">Save to Database</button>
+          <button class="btn-generate" id="btn-realestate" onclick="saveWithUpload('realestate')">Save to Database</button>
           <button class="btn-generate" id="cancel-realestate" onclick="cancelEdit('realestate')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -204,6 +216,10 @@
         <p class="desc">Add or edit energy and agriculture services</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="e-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+
           <label>Image Link</label>
           <input type="text" id="e-img" placeholder="https://..." oninput="updatePreview(this, 'e-preview')">
           <div class="img-preview-container" id="e-preview-container">
@@ -213,8 +229,8 @@
           <label>Service Title</label>
           <input type="text" id="e-title" placeholder="e.g. Bulk Diesel Supply">
           <label>Description</label>
-          <textarea id="e-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" id="btn-energy" onclick="saveEnergy()">Save to Database</button>
+          <textarea id="e-desc" rows="5" placeholder="Description..."></textarea>
+          <button class="btn-generate" id="btn-energy" onclick="saveWithUpload('energy')">Save to Database</button>
           <button class="btn-generate" id="cancel-energy" onclick="cancelEdit('energy')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -228,6 +244,10 @@
         <p class="desc">Add or edit business solutions</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="s-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+
           <label>Image Link</label>
           <input type="text" id="s-img" placeholder="https://..." oninput="updatePreview(this, 's-preview')">
           <div class="img-preview-container" id="s-preview-container">
@@ -237,8 +257,8 @@
           <label>Service Title</label>
           <input type="text" id="s-title" placeholder="e.g. Data Analysis">
           <label>Description</label>
-          <textarea id="s-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" id="btn-solutions" onclick="saveSolutions()">Save to Database</button>
+          <textarea id="s-desc" rows="5" placeholder="Description..."></textarea>
+          <button class="btn-generate" id="btn-solutions" onclick="saveWithUpload('solutions')">Save to Database</button>
           <button class="btn-generate" id="cancel-solutions" onclick="cancelEdit('solutions')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -257,8 +277,8 @@
           <label>Service Title</label>
           <input type="text" id="l-title" placeholder="e.g. Haulage Services">
           <label>Description</label>
-          <textarea id="l-desc" rows="3" placeholder="Description..."></textarea>
-          <button class="btn-generate" id="btn-logistics" onclick="saveLogistics()">Save to Database</button>
+          <textarea id="l-desc" rows="5" placeholder="Description..."></textarea>
+          <button class="btn-generate" id="btn-logistics" onclick="processSave('logistics', 'logistics', {icon: document.getElementById('l-icon').value, title: document.getElementById('l-title').value, desc: document.getElementById('l-desc').value}, 'l')">Save to Database</button>
           <button class="btn-generate" id="cancel-logistics" onclick="cancelEdit('logistics')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -272,6 +292,10 @@
         <p class="desc">Post or edit news and announcements</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="n-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+
           <label>Image Link</label>
           <input type="text" id="n-img" placeholder="https://..." oninput="updatePreview(this, 'n-preview')">
           <div class="img-preview-container" id="n-preview-container">
@@ -282,11 +306,11 @@
           <input type="text" id="n-date" placeholder="Jan 01, 2026">
           <label>Headline</label>
           <input type="text" id="n-title" placeholder="e.g. Partnership with Shell">
-          <label>Short Summary</label>
-          <textarea id="n-desc" rows="3" placeholder="Summary..."></textarea>
+          <label>Full Content</label>
+          <textarea id="n-desc" rows="10" placeholder="Write full article here..."></textarea>
           <label>Link To Page (Optional)</label>
           <input type="text" id="n-link" placeholder="contact.html">
-          <button class="btn-generate" id="btn-news" onclick="saveNews()">Save to Database</button>
+          <button class="btn-generate" id="btn-news" onclick="saveWithUpload('news')">Save to Database</button>
           <button class="btn-generate" id="cancel-news" onclick="cancelEdit('news')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -300,6 +324,10 @@
         <p class="desc">Update or edit your project gallery</p>
         
         <div class="form-group">
+          <label>Image Upload</label>
+          <input type="file" id="g-file" accept="image/*">
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
+
           <label>Image URL</label>
           <input type="text" id="g-img" placeholder="https://..." oninput="updatePreview(this, 'g-preview')">
           <div class="img-preview-container" id="g-preview-container">
@@ -308,7 +336,7 @@
 
           <label>Caption / Project Name</label>
           <input type="text" id="g-cap" placeholder="e.g. Grazeland Estate">
-          <button class="btn-generate" id="btn-gallery" onclick="saveGallery()">Save to Database</button>
+          <button class="btn-generate" id="btn-gallery" onclick="saveWithUpload('gallery')">Save to Database</button>
           <button class="btn-generate" id="cancel-gallery" onclick="cancelEdit('gallery')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -324,7 +352,7 @@
         <div class="form-group">
           <label>Profile Image (Upload File)</label>
           <input type="file" id="t-file" accept="image/*" style="margin-bottom: 5px;">
-          <p style="font-size:12px; color:#94a3b8; margin-top:0; margin-bottom:20px;">(Select a file to upload to Cloudinary, or paste an existing URL below)</p>
+          <span class="file-upload-help">(Select a file to upload OR paste a URL below)</span>
           
           <label>Image Link (URL)</label>
           <input type="text" id="t-img" placeholder="https://..." oninput="updatePreview(this, 't-preview')">
@@ -350,9 +378,9 @@
           <label>Role / Position</label>
           <input type="text" id="t-role" placeholder="e.g. Chief Executive Officer">
           <label>Description / Bio</label>
-          <textarea id="t-desc" rows="3" placeholder="Brief background..."></textarea>
+          <textarea id="t-desc" rows="5" placeholder="Brief background..."></textarea>
           
-          <button class="btn-generate" id="btn-team" onclick="saveTeam()">Save to Database</button>
+          <button class="btn-generate" id="btn-team" onclick="saveWithUpload('team')">Save to Database</button>
           <button class="btn-generate" id="cancel-team" onclick="cancelEdit('team')" style="display:none; background: #64748b; margin-top: 10px;">Cancel Edit</button>
         </div>
 
@@ -366,6 +394,8 @@
   <script>
     const API_URL = 'https://harkein-backend.onrender.com';
     let authToken = localStorage.getItem('authToken');
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/pvmrhdgf/image/upload';
+    const CLOUDINARY_PRESET = 'Team Upload'; // Reusing your existing preset for all images
     
     // Global state for items and editing
     let currentDataState = {}; 
@@ -491,7 +521,6 @@
         
         container.appendChild(toast);
         
-        // Remove toast after 3 seconds
         setTimeout(() => {
             toast.style.animation = 'fadeOut 0.3s ease-out forwards';
             setTimeout(() => toast.remove(), 300);
@@ -510,7 +539,6 @@
         }
     }
 
-    // FORM HANDLING & SAVING
     function setButtonLoading(btnId, isLoading) {
         const btn = document.getElementById(btnId);
         if(isLoading) {
@@ -523,15 +551,98 @@
         }
     }
 
+    // UNIVERSAL UPLOAD & SAVE HANDLER
+    async function saveWithUpload(panelId) {
+        // Map panels to their prefixes
+        const prefixMap = {
+            'fashion': 'f', 'realestate': 'p', 'energy': 'e',
+            'solutions': 's', 'news': 'n', 'gallery': 'g', 'team': 't'
+        };
+        const prefix = prefixMap[panelId];
+        const fileInput = document.getElementById(`${prefix}-file`);
+        const urlInput = document.getElementById(`${prefix}-img`);
+        let imageUrl = urlInput ? urlInput.value : '';
+
+        // If a file was selected, upload it to Cloudinary first
+        if (fileInput && fileInput.files.length > 0) {
+            setButtonLoading(`btn-${panelId}`, true);
+            try {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                formData.append('upload_preset', CLOUDINARY_PRESET);
+                
+                const cloudRes = await fetch(CLOUDINARY_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const cloudData = await cloudRes.json();
+                if (!cloudRes.ok) throw new Error(cloudData.error?.message || 'Image upload failed');
+                
+                imageUrl = cloudData.secure_url;
+                if (urlInput) {
+                    urlInput.value = imageUrl; 
+                    updatePreview(urlInput, `${prefix}-preview`);
+                }
+            } catch (err) {
+                showToast('error', err.message);
+                setButtonLoading(`btn-${panelId}`, false);
+                return; // Stop execution if image upload fails
+            }
+        }
+
+        // Package the specific data based on the panel
+        let data = { img: imageUrl };
+        
+        if (panelId === 'fashion') {
+            data.name = document.getElementById('f-name').value;
+            data.price = document.getElementById('f-price').value;
+            data.category = document.getElementById('f-cat').value;
+            processSave('fashion', 'fashion', data, 'f');
+        } 
+        else if (panelId === 'realestate') {
+            data.title = document.getElementById('p-title').value;
+            data.price = document.getElementById('p-price').value;
+            data.location = document.getElementById('p-loc').value;
+            data.status = document.getElementById('p-status').value;
+            processSave('realestate', 'property', data, 'p');
+        }
+        else if (panelId === 'energy') {
+            data.title = document.getElementById('e-title').value;
+            data.desc = document.getElementById('e-desc').value;
+            processSave('energy', 'energy', data, 'e');
+        }
+        else if (panelId === 'solutions') {
+            data.title = document.getElementById('s-title').value;
+            data.desc = document.getElementById('s-desc').value;
+            processSave('solutions', 'solutions', data, 's');
+        }
+        else if (panelId === 'news') {
+            data.title = document.getElementById('n-title').value;
+            data.desc = document.getElementById('n-desc').value;
+            data.date = document.getElementById('n-date').value;
+            data.link = document.getElementById('n-link').value;
+            processSave('news', 'news', data, 'n');
+        }
+        else if (panelId === 'gallery') {
+            data.caption = document.getElementById('g-cap').value;
+            processSave('gallery', 'gallery', data, 'g');
+        }
+        else if (panelId === 'team') {
+            data.title = document.getElementById('t-name').value; 
+            data.role = document.getElementById('t-role').value;
+            data.desc = document.getElementById('t-desc').value;
+            data.department = document.getElementById('t-dept').value;
+            processSave('team', 'team', data, 't');
+        }
+    }
+
     async function processSave(panelId, type, data, prefix) {
         setButtonLoading(`btn-${panelId}`, true);
         
         try {
-            // If editing, use PUT. Otherwise use POST.
             const method = editingId ? 'PUT' : 'POST';
             const url = editingId ? `${API_URL}/api/items/${editingId}` : `${API_URL}/api/items`;
-            
-            // If editing, ensure we pass the 'type' in case the backend requires it for the update payload
             const payload = editingId ? { type, data } : { type, data };
 
             const response = await fetch(url, {
@@ -545,7 +656,7 @@
             
             if (response.ok) {
                 showToast('success', editingId ? 'Item updated successfully!' : 'Item saved successfully!');
-                cancelEdit(panelId); // Resets form and edit state
+                cancelEdit(panelId); 
                 loadData(panelId);
             } else {
                 showToast('error', 'Failed to save item.');
@@ -557,141 +668,27 @@
             setButtonLoading(`btn-${panelId}`, false);
         }
     }
-
-    function saveFashion() {
-        const data = {
-            img: document.getElementById('f-img').value,
-            name: document.getElementById('f-name').value,
-            price: document.getElementById('f-price').value,
-            category: document.getElementById('f-cat').value
-        };
-        processSave('fashion', 'fashion', data, 'f');
-    }
-
-    function saveProperty() {
-        const data = {
-            img: document.getElementById('p-img').value,
-            title: document.getElementById('p-title').value,
-            price: document.getElementById('p-price').value,
-            location: document.getElementById('p-loc').value,
-            status: document.getElementById('p-status').value
-        };
-        processSave('realestate', 'property', data, 'p');
-    }
-
-    function saveEnergy() {
-        const data = {
-            img: document.getElementById('e-img').value,
-            title: document.getElementById('e-title').value,
-            desc: document.getElementById('e-desc').value
-        };
-        processSave('energy', 'energy', data, 'e');
-    }
-
-    function saveSolutions() {
-        const data = {
-            img: document.getElementById('s-img').value,
-            title: document.getElementById('s-title').value,
-            desc: document.getElementById('s-desc').value
-        };
-        processSave('solutions', 'solutions', data, 's');
-    }
-
-    function saveLogistics() {
-        const data = {
-            icon: document.getElementById('l-icon').value,
-            title: document.getElementById('l-title').value,
-            desc: document.getElementById('l-desc').value
-        };
-        processSave('logistics', 'logistics', data, 'l');
-    }
-
-    function saveNews() {
-        const data = {
-            img: document.getElementById('n-img').value,
-            title: document.getElementById('n-title').value,
-            desc: document.getElementById('n-desc').value,
-            date: document.getElementById('n-date').value,
-            link: document.getElementById('n-link').value
-        };
-        processSave('news', 'news', data, 'n');
-    }
-
-    function saveGallery() {
-        const data = {
-            img: document.getElementById('g-img').value,
-            caption: document.getElementById('g-cap').value
-        };
-        processSave('gallery', 'gallery', data, 'g');
-    }
-    
-   async function saveTeam() {
-        const fileInput = document.getElementById('t-file');
-        let imageUrl = document.getElementById('t-img').value;
-        const departmentValue = document.getElementById('t-dept').value;
-
-        // If a file was selected, upload it to Cloudinary first
-        if (fileInput.files.length > 0) {
-            setButtonLoading('btn-team', true);
-            try {
-                const formData = new FormData();
-                formData.append('file', fileInput.files[0]);
-                formData.append('upload_preset', 'Team Upload');
-                
-                // Uses the Cloudinary credentials from your previous code
-                const cloudRes = await fetch('https://api.cloudinary.com/v1_1/pvmrhdgf/image/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const cloudData = await cloudRes.json();
-                if (!cloudRes.ok) throw new Error(cloudData.error?.message || 'Image upload failed');
-                
-                imageUrl = cloudData.secure_url;
-                document.getElementById('t-img').value = imageUrl; 
-                updatePreview(document.getElementById('t-img'), 't-preview');
-            } catch (err) {
-                showToast('error', err.message);
-                setButtonLoading('btn-team', false);
-                return; // Stop execution if image upload fails
-            }
-        }
-
-        // Format data to match your existing displayItems() expectations
-        const data = {
-            img: imageUrl,
-            title: document.getElementById('t-name').value, 
-            role: document.getElementById('t-role').value,
-            desc: document.getElementById('t-desc').value,
-            department: departmentValue // Pass the captured department here
-        };
-        
-        processSave('team', 'team', data, 't');
-    }
     
     // EDITING LOGIC
     function triggerEdit(panelId, itemType, id) {
         editingId = id;
         editingType = itemType;
         
-        // Find the item from our stored state
         const item = currentDataState[itemType].find(i => i._id === id);
         if(!item) return;
 
-        // Change UI state
         document.getElementById(`btn-${panelId}`).textContent = "Update Item";
         document.getElementById(`btn-${panelId}`).dataset.originalText = "Update Item";
         document.getElementById(`cancel-${panelId}`).style.display = "block";
         
-        // Scroll to top of form
         document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Populate fields based on type
         if(panelId === 'fashion') {
             document.getElementById('f-img').value = item.data.img || '';
             document.getElementById('f-name').value = item.data.name || '';
             document.getElementById('f-price').value = item.data.price || '';
             document.getElementById('f-cat').value = item.data.category || "Men's Luxury";
+            document.getElementById('f-file').value = '';
             updatePreview(document.getElementById('f-img'), 'f-preview');
         } 
         else if(panelId === 'realestate') {
@@ -700,18 +697,21 @@
             document.getElementById('p-price').value = item.data.price || '';
             document.getElementById('p-loc').value = item.data.location || '';
             document.getElementById('p-status').value = item.data.status || 'For Sale';
+            document.getElementById('p-file').value = '';
             updatePreview(document.getElementById('p-img'), 'p-preview');
         }
         else if(panelId === 'energy') {
             document.getElementById('e-img').value = item.data.img || '';
             document.getElementById('e-title').value = item.data.title || '';
             document.getElementById('e-desc').value = item.data.desc || '';
+            document.getElementById('e-file').value = '';
             updatePreview(document.getElementById('e-img'), 'e-preview');
         }
         else if(panelId === 'solutions') {
             document.getElementById('s-img').value = item.data.img || '';
             document.getElementById('s-title').value = item.data.title || '';
             document.getElementById('s-desc').value = item.data.desc || '';
+            document.getElementById('s-file').value = '';
             updatePreview(document.getElementById('s-img'), 's-preview');
         }
         else if(panelId === 'logistics') {
@@ -725,11 +725,13 @@
             document.getElementById('n-desc').value = item.data.desc || '';
             document.getElementById('n-date').value = item.data.date || '';
             document.getElementById('n-link').value = item.data.link || '';
+            document.getElementById('n-file').value = '';
             updatePreview(document.getElementById('n-img'), 'n-preview');
         }
         else if(panelId === 'gallery') {
             document.getElementById('g-img').value = item.data.img || '';
             document.getElementById('g-cap').value = item.data.caption || '';
+            document.getElementById('g-file').value = '';
             updatePreview(document.getElementById('g-img'), 'g-preview');
         }
         else if(panelId === 'team') {
@@ -747,7 +749,6 @@
         editingId = null;
         editingType = null;
         
-        // Reset UI state
         const saveBtn = document.getElementById(`btn-${panelId}`);
         if(saveBtn) {
             saveBtn.textContent = "Save to Database";
@@ -756,7 +757,6 @@
         const cancelBtn = document.getElementById(`cancel-${panelId}`);
         if(cancelBtn) cancelBtn.style.display = "none";
         
-        // Clear all inputs in the active panel
         const panel = document.getElementById(panelId);
         if(panel) {
             panel.querySelectorAll('input, textarea').forEach(el => el.value = '');
@@ -777,7 +777,6 @@
             if (response.ok) {
                 showToast('success', 'Item deleted successfully');
                 loadData(panelId);
-                // If we delete the item we were currently editing, cancel the edit
                 if(editingId === id) cancelEdit(panelId);
             } else {
                 showToast('error', 'Failed to delete item');
@@ -791,14 +790,9 @@
     // DATA LOADING & DISPLAY
     async function loadData(section) {
         const typeMap = {
-            'fashion': 'fashion',
-            'realestate': 'property',
-            'energy': 'energy',
-            'solutions': 'solutions',
-            'logistics': 'logistics',
-            'news': 'news',
-            'gallery': 'gallery',
-            'team': 'team'
+            'fashion': 'fashion', 'realestate': 'property', 'energy': 'energy',
+            'solutions': 'solutions', 'logistics': 'logistics', 'news': 'news',
+            'gallery': 'gallery', 'team': 'team'
         };
         
         const type = typeMap[section];
@@ -808,9 +802,7 @@
             const response = await fetch(`${API_URL}/api/items/${type}`);
             const items = await response.json();
             
-            // Store globally for editing referencing
             currentDataState[type] = items;
-            
             displayItems(section, type, items);
         } catch (error) {
             console.error('Load error:', error);
@@ -827,7 +819,6 @@
         }
         
         list.innerHTML = items.map(item => {
-            // Determine image source or fallback icon
             let imgHTML = '';
             if (item.data.img) {
                 imgHTML = `<img src="${item.data.img}" class="item-thumb" alt="thumbnail">`;
@@ -859,14 +850,9 @@
     }
 
     function loadAllData() {
-        loadData('fashion');
-        loadData('realestate');
-        loadData('energy');
-        loadData('solutions');
-        loadData('logistics');
-        loadData('news');
-        loadData('gallery');
-        loadData('team');
+        loadData('fashion'); loadData('realestate'); loadData('energy');
+        loadData('solutions'); loadData('logistics'); loadData('news');
+        loadData('gallery'); loadData('team');
     }
 
     // INITIALIZATION
