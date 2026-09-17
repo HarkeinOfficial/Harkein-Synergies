@@ -318,33 +318,35 @@
         // Group members by their department
         const groupedData = {};
         items.forEach(item => {
-          const dept = item.data.department || 'Executive Leadership';
+          const dept = item.data.department || 'Group Executive Leadership';
           if (!groupedData[dept]) groupedData[dept] = [];
           groupedData[dept].push(item);
         });
 
-        // 1. Define the exact order you want the departments to appear
+        // 1. Define the exact order you want the corporate departments to appear
         const order = [
-          "Executive Leadership", 
-          "Product & Design", 
-          "Engineering & Architecture",
-          "Risk, Fraud & Cybersecurity", 
-          "Legal, Compliance & Regulatory", 
-          "Financial Operations & Treasury", 
-          "Commercial Partnerships", 
-          "DevOps & Infrastructure"
+          "Group Executive Leadership", 
+          "Corporate Strategy & Business Development", 
+          "Finance, Treasury & Investments",
+          "Legal, Governance & Risk Management", 
+          "Human Resources & Corporate Affairs", 
+          "Marketing & Corporate Communications", 
+          "Technology & Digital Innovation", 
+          "Procurement, Supply Chain & Logistics",
+          "Real Estate & Project Operations"
         ];
 
-        // 2. Define the descriptions and emails for each department
+        // 2. Define the descriptions and emails for each corporate department
         const deptInfo = {
-          "Executive Leadership": { desc: "Guiding the strategic vision, governance, and overall operations of Harkein Synergies.", email: "harkeininfo@gmail.com" },
-          "Product & Design": { desc: "Crafting intuitive, user-centric, and innovative product experiences.", email: "harkeininfo@gmail.com" },
-          "Engineering & Architecture": { desc: "Designing and building robust, scalable, and secure technical infrastructure.", email: "harkeininfo@gmail.com" },
-          "Risk, Fraud & Cybersecurity": { desc: "Protecting digital assets, ensuring data integrity, and mitigating corporate risk.", email: "harkeininfo@gmail.com" },
-          "Legal, Compliance & Regulatory": { desc: "Navigating legal frameworks and ensuring strict corporate compliance.", email: "harkeininfo@gmail.com" },
-          "Financial Operations & Treasury": { desc: "Managing financial health, liquidity, capital allocation, and economic strategy.", email: "harkeininfo@gmail.com" },
-          "Commercial Partnerships": { desc: "Fostering strategic alliances, business development, and driving merchant growth.", email: "harkeininfo@gmail.com" },
-          "DevOps & Infrastructure": { desc: "Ensuring high availability, continuous deployment, and enterprise system reliability.", email: "harkeininfo@gmail.com" }
+          "Group Executive Leadership": { desc: "Guiding the strategic vision, capital allocation, and overall operations across all Harkein Synergies subsidiaries and divisions.", email: "harkeininfo@gmail.com" },
+          "Corporate Strategy & Business Development": { desc: "Identifying new market opportunities, managing acquisitions, and forging high-level commercial partnerships.", email: "harkeininfo@gmail.com" },
+          "Finance, Treasury & Investments": { desc: "Managing corporate financial health, liquidity, capital investments, accounting, and economic strategy across all divisions.", email: "harkeininfo@gmail.com" },
+          "Legal, Governance & Risk Management": { desc: "Ensuring strict corporate compliance, protecting intellectual property, managing contracts, and mitigating enterprise-wide risk.", email: "harkeininfo@gmail.com" },
+          "Human Resources & Corporate Affairs": { desc: "Driving talent acquisition, organizational culture, employee relations, and overall human capital management.", email: "harkeininfo@gmail.com" },
+          "Marketing & Corporate Communications": { desc: "Protecting the Harkein brand, handling public relations, media, and driving marketing strategies across all sectors.", email: "harkeininfo@gmail.com" },
+          "Technology & Digital Innovation": { desc: "Overseeing internal IT infrastructure, cybersecurity, and leading the development of Harkein's digital and tech solutions.", email: "harkeininfo@gmail.com" },
+          "Procurement, Supply Chain & Logistics": { desc: "Managing global sourcing, vendor relations, and ensuring operational efficiency for the logistics, fashion, and energy divisions.", email: "harkeininfo@gmail.com" },
+          "Real Estate & Project Operations": { desc: "Overseeing architectural planning, property management, site operations, and facility development for Harkein Properties.", email: "harkeininfo@gmail.com" }
         };
 
         // Build the HTML for each department
@@ -373,7 +375,7 @@
 
           // Uses the native <details> tag for the accordion dropdown, with the header inside
           const accordionHTML = `
-            <details class="dept-accordion" ${deptName === 'Executive Leadership' ? 'open' : ''}>
+            <details class="dept-accordion" ${deptName === 'Group Executive Leadership' ? 'open' : ''}>
               <summary>${deptName} <span style="font-size: 14px; opacity: 0.8; font-weight: normal;">(${members.length} Members)</span></summary>
               <div class="dept-header">
                 <p class="dept-desc">${info.desc}</p>
