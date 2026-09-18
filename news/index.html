@@ -120,7 +120,13 @@
     .close-btn:hover { color: var(--gold); }
     .modal-img-container { text-align: center; margin-bottom: 20px; background: #f9f9f9; padding: 20px; border-radius: 8px; }
     .modal-img { max-width: 100%; height: auto; max-height: 300px; object-fit: contain; }
-    .modal-text { line-height: 1.8; color: var(--text); }
+    
+    /* THE FIX IS HERE: white-space: pre-line forces the modal to respect line breaks */
+    .modal-text { 
+        line-height: 1.8; 
+        color: var(--text); 
+        white-space: pre-line; 
+    }
 
     /* FOOTER */
     footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px;}
