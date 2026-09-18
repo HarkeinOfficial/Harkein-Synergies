@@ -69,7 +69,7 @@
 
     /* GRID */
     section { padding: 80px 0; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     
     /* PROPERTY CARDS WITH CONSISTENT IMAGE SIZING */
     .prop-card { 
@@ -176,6 +176,7 @@
       text-align: center;
       padding: 100px 20px;
       color: var(--text);
+      grid-column: 1 / -1;
     }
     .no-items h3 {
       color: var(--navy);
@@ -185,7 +186,7 @@
 
     /* FOOTER */
     footer{background:#0b1120; color:rgba(255,255,255,0.6); padding:60px 0; font-size: 14px; margin-top: 50px;}
-    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
     .footer-col h4 { color: white; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
     .footer-col ul { list-style: none; padding: 0; }
     .footer-col ul li { margin-bottom: 10px; }
@@ -284,7 +285,7 @@
   </main>
 
   <footer>
-    <div class="container footer-content">
+    <div class="footer-content">
         <div class="footer-col">
             <h4>Harkein Synergies</h4>
             <p>A multi-sector conglomerate dedicated to excellence in Logistics, Real Estate, Tech Solutions and Fashion.</p>
@@ -341,7 +342,7 @@
 
     async function loadProperties() {
       try {
-        const response = await fetch(`${API_URL}/api/properties`);
+        const response = await fetch(`${API_URL}/api/items/property`);
         const items = await response.json();
         
         const grid = document.getElementById('properties-grid');
