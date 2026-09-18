@@ -46,7 +46,7 @@
     .form-group { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 800px; margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--navy); font-size: 14px; }
     input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit; }
-    textarea { white-space: pre-wrap; } /* Helps display line breaks in the admin area */
+    textarea { white-space: pre-wrap; } /* Respects line breaks in the admin view */
     
     .file-upload-help { font-size: 12px; color: #94a3b8; margin-top: -15px; margin-bottom: 15px; display: block; }
     
@@ -111,9 +111,9 @@
     
     <div class="sidebar">
       <div class="brand" style="display: flex; align-items: center; gap: 12px;">
-  <img src="/9227.jpg" alt="Logo" style="width: 35px; height: 35px; border-radius: 6px; border: 1px solid var(--gold); object-fit: cover;">
-  <div style="line-height: 1.2;">HARKEIN <span style="display: block; font-size: 14px;">ADMIN</span></div>
-</div>
+        <img src="/9227.jpg" alt="Logo" style="width: 35px; height: 35px; border-radius: 6px; border: 1px solid var(--gold); object-fit: cover;">
+        <div style="line-height: 1.2;">HARKEIN <span style="display: block; font-size: 14px;">ADMIN</span></div>
+      </div>
       
       <div class="session-timer" id="session-timer">
         <i class="fas fa-clock"></i> Session: <span id="timer-display">30:00</span>
@@ -374,7 +374,7 @@
           </select>
 
           <label>Full Name</label>
-          <input type="text" id="t-name" placeholder="e.g. Folaranmi Hussein Kehinde">
+          <input type="text" id="t-name" placeholder="e.g. Executive Name">
           <label>Role / Position</label>
           <input type="text" id="t-role" placeholder="e.g. Chief Executive Officer">
           <label>Description / Bio</label>
@@ -393,9 +393,11 @@
 
   <script>
     const API_URL = 'https://harkein-backend.onrender.com';
-    let authToken = localStorage.getItem('authToken');
     const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/pvmrhdgf/image/upload';
-    const CLOUDINARY_PRESET = 'Team Upload'; // Reusing your existing preset for all images
+    const CLOUDINARY_PRESET = 'Team Upload'; 
+    
+    // CHANGED: Use sessionStorage instead of localStorage
+    let authToken = sessionStorage.getItem('authToken');
     
     // Global state for items and editing
     let currentDataState = {}; 
@@ -403,39 +405,22 @@
     let editingType = null;
     let currentPanelId = 'fashion'; // default
 
-    // AUTO-LOGOUT TIMER (30 minutes)
-    const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+    // STRICT 30 MINUTE COUNTDOWN TIMER
+    const SESSION_DURATION = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000; 
-    let inactivityTimer;
-    let sessionStartTime;
-    let timerInterval;
+    let sessionTimer;
+    let sessionEndTime;
 
-    function startInactivityTimer() {
-      sessionStartTime = Date.now();
-      resetInactivityTimer();
-      startTimerDisplay();
+    function startSessionTimer() {
+      sessionEndTime = Date.now() + SESSION_DURATION;
       
-      ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
-        document.addEventListener(event, resetInactivityTimer, true);
-      });
-    }
-
-    function resetInactivityTimer() {
-      clearTimeout(inactivityTimer);
-      sessionStartTime = Date.now();
-      inactivityTimer = setTimeout(() => {
-        alert('Your session has expired due to inactivity. Please login again.');
-        logout();
-      }, INACTIVITY_TIMEOUT);
-    }
-
-    function startTimerDisplay() {
-      timerInterval = setInterval(() => {
-        const elapsed = Date.now() - sessionStartTime;
-        const remaining = INACTIVITY_TIMEOUT - elapsed;
+      sessionTimer = setInterval(() => {
+        const remaining = sessionEndTime - Date.now();
         
         if (remaining <= 0) {
-          clearInterval(timerInterval);
+          clearInterval(sessionTimer);
+          alert('Security Timeout: Session expired. Please login again.');
+          logout();
           return;
         }
         
@@ -457,6 +442,11 @@
       }, 1000);
     }
 
+    // LOG OUT IMMEDIATELY WHEN LEAVING OR REFRESHING THE PAGE
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.removeItem('authToken');
+    });
+
     // LOGIN & AUTH
     async function checkLogin() {
         const passwordInput = document.getElementById("password");
@@ -477,10 +467,10 @@
             
             if (response.ok) {
                 authToken = data.token;
-                localStorage.setItem('authToken', authToken);
+                sessionStorage.setItem('authToken', authToken); 
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("main-interface").style.display = "flex";
-                startInactivityTimer();
+                startSessionTimer(); 
                 loadAllData();
             } else {
                 document.getElementById("error-msg").textContent = "Access Denied";
@@ -496,9 +486,8 @@
     }
 
     function logout() { 
-        clearTimeout(inactivityTimer);
-        clearInterval(timerInterval);
-        localStorage.removeItem('authToken');
+        clearInterval(sessionTimer);
+        sessionStorage.removeItem('authToken');
         location.reload(); 
     }
 
@@ -509,7 +498,7 @@
         document.getElementById(tabId).classList.add('active');
         event.currentTarget.classList.add('active');
         currentPanelId = tabId;
-        cancelEdit(tabId); // clear any active edits when switching tabs
+        cancelEdit(tabId); 
         loadData(tabId);
     }
 
@@ -553,7 +542,6 @@
 
     // UNIVERSAL UPLOAD & SAVE HANDLER
     async function saveWithUpload(panelId) {
-        // Map panels to their prefixes
         const prefixMap = {
             'fashion': 'f', 'realestate': 'p', 'energy': 'e',
             'solutions': 's', 'news': 'n', 'gallery': 'g', 'team': 't'
@@ -563,7 +551,6 @@
         const urlInput = document.getElementById(`${prefix}-img`);
         let imageUrl = urlInput ? urlInput.value : '';
 
-        // If a file was selected, upload it to Cloudinary first
         if (fileInput && fileInput.files.length > 0) {
             setButtonLoading(`btn-${panelId}`, true);
             try {
@@ -587,11 +574,10 @@
             } catch (err) {
                 showToast('error', err.message);
                 setButtonLoading(`btn-${panelId}`, false);
-                return; // Stop execution if image upload fails
+                return; 
             }
         }
 
-        // Package the specific data based on the panel
         let data = { img: imageUrl };
         
         if (panelId === 'fashion') {
@@ -859,7 +845,7 @@
     if (authToken) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("main-interface").style.display = "flex";
-        startInactivityTimer(); 
+        startSessionTimer(); // Uses the new strict timer
         loadAllData();
     }
   </script>
